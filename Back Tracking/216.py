@@ -20,7 +20,7 @@ class Solution:
             # 如果len(path) == k 但sum != target_sum 直接返回
             return
 
-        for i in range(start_index, 10):
+        for i in range(start_index, 9 - (k - len(self.path)) + 2):
             # 此处开始从宽度到深度进行遍历，每一个宽度里面用递归遍历完深度
             sum += i    # 处理
             self.path.append(i)  # 处理节点

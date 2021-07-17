@@ -1,4 +1,4 @@
-class Solution:
+class Solution1:
     def __init__(self):
         self.result = []  # 存放组合集合
         self.path = []  # 符合条件的组合
@@ -52,5 +52,59 @@ class Solution:
         return self.result
 
 
-s = Solution()
+class Solution2:
+    def __init__(self):
+        self.result = []
+        self.path = []
+
+    def isValid(self, s, start, end):
+        if start > end:
+            return False
+
+        sub = s[start: end]
+
+        if len(sub) == 0:
+            return False
+
+        if sub[0] == '0' and len(sub) > 1:  # 0开头的数字不合法
+            return False
+
+        for i in sub:
+            if i > '9' or i < '0':  # 遇到非数字字符不合法
+                return False
+
+        if float(sub) > 255:
+            return False
+
+        return True
+
+    def backtracking(self, s, start_index, point_number):
+        if point_number == 3:
+            if self.isValid(s, start_index, len(s)):
+                # self.result.append(s)
+                self.path.append(s[start_index: len(s)])
+                self.result.append(".".join(self.path))
+                self.path = self.path[:-1]
+            return
+
+        for i in range(start_index, len(s)):
+            if self.isValid(s, start_index, i + 1):
+                self.path.append(s[start_index: i + 1])
+                point_number += 1
+                self.backtracking(s, i + 1, point_number)
+                self.path = self.path[:-1]
+                point_number -= 1
+            else:
+                break
+
+        return
+
+    def restoreIpAddresses(self, s: str) -> [str]:
+        """一样的逻辑只是加入string的方式不同，这样更容易理解一点，但是要注意两次回溯"""
+        self.backtracking(s, 0, 0)
+
+        return self.result
+
+
+s = Solution1()
 print(s.restoreIpAddresses(s="010010"))
