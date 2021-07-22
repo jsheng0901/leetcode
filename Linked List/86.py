@@ -5,7 +5,35 @@ class ListNode:
 
 
 class Solution:
-    def partition(self, head: ListNode, x: int) -> ListNode:
+    def partition1(self, head: ListNode, x: int) -> ListNode:
+        print('this is method 1')
+        dummy1 = ListNode(0)
+        dummy2 = ListNode(0)
+
+        p1 = dummy1
+        p2 = dummy2
+        cur = head
+
+        while cur:
+            if cur.val < x:
+                p1.next = cur
+                p1 = cur
+            else:
+                p2.next = cur
+                p2 = cur
+
+            cur = cur.next
+        # 一定要check最后哪一个是尾巴，并且指向None不然会return出死循环
+        if p1.next is not None:
+            p1.next = None
+        if p2.next is not None:
+            p2.next = None
+
+        p1.next = dummy2.next
+
+        return dummy1.next
+
+    def partition2(self, head: ListNode, x: int) -> ListNode:
         """
         three pointers, first record position of smaller than x, second record position of bigger or equal than x,
         third is loop whole linked node
@@ -56,4 +84,4 @@ node3.next = node4
 node4.next = node5
 node5.next = node6
 s = Solution()
-print(s.partition(node1, 3))
+print(s.partition1(node1, 3))

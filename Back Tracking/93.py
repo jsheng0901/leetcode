@@ -87,14 +87,14 @@ class Solution2:
                 self.path = self.path[:-1]
             return
 
-        for i in range(start_index, len(s)):
+        for i in range(start_index, start_index + 3):       # 优化一个loop，可以没必要进valid
             if self.isValid(s, start_index, i + 1):
                 self.path.append(s[start_index: i + 1])
                 point_number += 1
                 self.backtracking(s, i + 1, point_number)
                 self.path = self.path[:-1]
                 point_number -= 1
-            else:
+            else:                                           # 如果不符合就break，没必要继续展开tree
                 break
 
         return
