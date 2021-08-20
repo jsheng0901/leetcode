@@ -31,3 +31,7 @@ class Solution:
                 num = 0                 # 重置数字大小
 
         return sum(stack)
+
+
+s = Solution()
+print(s.calculate('1+2*3'))
