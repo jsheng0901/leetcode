@@ -16,7 +16,6 @@ class Solution:
                 string_word = s[j: i]  # substr j 是起始截取点，截取j到i的部分进行判断这个单词在不在dict里面
                 if string_word in wordDict and dp[j]:
                     dp[i] = True
-            print(dp)
 
         return dp[len(s)]
 
