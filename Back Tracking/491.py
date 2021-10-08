@@ -31,6 +31,31 @@ class Solution:
 
         return self.result
 
+    def findSubsequences(self, nums: [int]) -> [[int]]:
+        """不需要global variable的写法"""
+        result = []
+        path = []
+
+        def backtracking(nums, start_index):
+
+            if len(path) > 1:
+                result.append(path[:])
+
+            used = set()
+            for i in range(start_index, len(nums)):
+                if len(path) > 0 and nums[i] < path[-1] or nums[i] in used:
+                    continue
+                path.append(nums[i])
+                used.add(nums[i])
+                backtracking(nums, i + 1)
+                # used.remove(nums[i])      # 同层判断不需要remove上一下元素，不然没办法查重下一个ex: [7,7]
+                path.pop()
+            return
+
+        backtracking(nums, 0)
+
+        return result
+
 
 s = Solution()
 print(s.findSubsequences(nums=[4, 6, 7, 7]))
