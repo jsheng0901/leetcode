@@ -1,7 +1,8 @@
 
 def search_insert_0(nums: [int], target: int) -> int:
     """
-    O(n) loop nums once
+    time O(n) loop nums once
+    space O(1)
     """
     for i in range(len(nums)):
         if nums[i] >= target:
@@ -12,7 +13,8 @@ def search_insert_0(nums: [int], target: int) -> int:
 
 def search_insert_1(nums: [int], target: int) -> int:
     """
-    O(logn) binary search time
+    time O(logn) binary search time
+    space O(1)
     """
     left = 0
     right = len(nums) - 1   # 定义target在左闭右闭的区间里，[left, right]
@@ -25,7 +27,7 @@ def search_insert_1(nums: [int], target: int) -> int:
         else:
             return middle
 
-    return right + 1
+    return right + 1    # or just return left
 
 
 index = search_insert_1([1, 2, 3, 4], 5)

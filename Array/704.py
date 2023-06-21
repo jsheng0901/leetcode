@@ -1,5 +1,9 @@
 class Solution:
     def search(self, nums: [int], target: int) -> int:
+        """
+        time: O(logn)
+        space: O(1)
+        """
         # 遵循左闭右闭的区间写法, 此方法非常重要
 
         left = 0
