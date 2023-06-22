@@ -20,3 +20,20 @@ class Solution:
             res[i] = square
 
         return res
+
+        # 另一个解法是加入第三个指针在result数组上插入数值
+        # i = 0
+        # j = len(nums) - 1
+        #
+        # result = [0] * len(nums)
+        # k = len(result) - 1
+        # while i <= j:
+        #     if nums[i] * nums[i] < nums[j] * nums[j]:
+        #         result[k] = nums[j] * nums[j]
+        #         j -= 1
+        #     else:
+        #         result[k] = nums[i] * nums[i]
+        #         i += 1
+        #     k -= 1
+        #
+        # return result
