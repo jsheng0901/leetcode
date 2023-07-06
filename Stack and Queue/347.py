@@ -3,7 +3,10 @@ import heapq
 
 def topKFrequent(nums: [int], k: int) -> [int]:
     """
-    O(nlogn) time, first count frequency, then build a min heap, here we use build in heap, then transfer to list
+    time O(nlogk) k is top element size in heapq
+        first count frequency takes O(n), then build a min heap for each element, each pop and push takes log(n)
+        here we use build in heap, then transfer to list.
+    space O(n)
     """
     # calculate frequency first
     freq = {}
