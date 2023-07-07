@@ -1,4 +1,7 @@
 # Definition for a binary tree node.
+from typing import List
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -7,11 +10,11 @@ class TreeNode:
 
 
 def traversal(tree_node, results):
-    if tree_node is None:                   # 判读自己现在的node是不是None就可以，及当前node的value会append进result
+    if tree_node is None:  # 判读自己现在的node是不是None就可以，及当前node的value会append进result
         return
-    results.append(tree_node.val)           # 中间节点
-    traversal(tree_node.left, results)      # 左节点
-    traversal(tree_node.right, results)     # 右节点
+    results.append(tree_node.val)  # 中间节点
+    traversal(tree_node.left, results)  # 左节点
+    traversal(tree_node.right, results)  # 右节点
 
 
 def preorderTraversal(root: TreeNode) -> [int]:
@@ -45,6 +48,32 @@ def preorderTraversalStack(root: TreeNode) -> [int]:
             stack.append(node.left)
 
     return results
+
+
+class Solution:
+    """
+    二叉树的前序遍历，stack迭代法统一写法
+    与上面的区别在于每次处理中间节点的时候用空节点标记一下，当拿到空节点的时候说明是中间节点，此时记录value
+    """
+
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        result = []
+        st = []
+        if root:
+            st.append(root)
+        while st:
+            node = st.pop()
+            if node is not None:
+                if node.right:  # 右
+                    st.append(node.right)
+                if node.left:  # 左
+                    st.append(node.left)
+                st.append(node)  # 中
+                st.append(None)
+            else:
+                node = st.pop()
+                result.append(node.val)
+        return result
 
 
 t1 = TreeNode(val=1)

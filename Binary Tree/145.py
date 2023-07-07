@@ -1,4 +1,7 @@
 # Definition for a binary tree node.
+from typing import List
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -22,6 +25,32 @@ def postorderTraversal(root: TreeNode) -> [int]:
     traversal(root, results)
 
     return results
+
+
+class Solution:
+    """
+    二叉树的后序遍历，stack迭代法统一写法
+    同前序遍历每次处理中间节点的时候用空节点标记一下，当拿到空节点的时候说明是中间节点，此时记录value
+    """
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        result = []
+        st = []
+        if root:
+            st.append(root)
+        while st:
+            node = st.pop()
+            if node is not None:
+                st.append(node)  # 中
+                st.append(None)
+
+                if node.right:  # 右
+                    st.append(node.right)
+                if node.left:  # 左
+                    st.append(node.left)
+            else:
+                node = st.pop()
+                result.append(node.val)
+        return result
 
 
 t1 = TreeNode(val=1)

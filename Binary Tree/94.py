@@ -9,9 +9,9 @@ class TreeNode:
 def traversal(tree_node, results):
     if tree_node is None:
         return
-    traversal(tree_node.left, results)      # 左节点
-    results.append(tree_node.val)           # 中间节点
-    traversal(tree_node.right, results)     # 右节点
+    traversal(tree_node.left, results)  # 左节点
+    results.append(tree_node.val)  # 中间节点
+    traversal(tree_node.right, results)  # 右节点
 
 
 def inorderTraversal(root: TreeNode) -> [int]:
@@ -43,6 +43,10 @@ def inorderTraversalStack(root: TreeNode) -> [int]:
 
 
 class Solution:
+    """
+    二叉树的中序遍历，stack迭代法统一写法
+    同前序遍历每次处理中间节点的时候用空节点标记一下，当拿到空节点的时候说明是中间节点，此时记录value
+    """
     def inorderTraversal(self, root: TreeNode) -> [int]:
         result = []
         st = []
@@ -50,7 +54,7 @@ class Solution:
             st.append(root)
         while st:
             node = st.pop()
-            if node != None:
+            if node is not None:
                 if node.right:  # 添加右节点（空节点不入栈）
                     st.append(node.right)
 
@@ -63,7 +67,6 @@ class Solution:
                 node = st.pop()  # 重新取出栈中元素
                 result.append(node.val)  # 加入到结果集
         return result
-
 
 
 t1 = TreeNode(val=1)
