@@ -15,16 +15,16 @@ def compare(left, right):
         return False
     elif left is not None and right is None:
         return False
-    elif left is None and  right is None:
-            return True
+    elif left is None and right is None:
+        return True
     # 排除了空节点，再排除数值不相同的情况
     elif left.val != right.val:
         return False
 
     # 此时才做递归，做下一层的判断
-    outside = compare(left.left, right.right)   # 左子树：左、 右子树：右
-    inside = compare(left.right, right.left)    # 左子树：右、 右子树：左
-    is_same = outside and inside                 # 左子树：中、 右子树：中 （逻辑处理）
+    outside = compare(left.left, right.right)  # 左子树：左、 右子树：右
+    inside = compare(left.right, right.left)  # 左子树：右、 右子树：左
+    is_same = outside and inside  # 左子树：中、 右子树：中 （逻辑处理）
 
     return is_same
 
@@ -52,10 +52,10 @@ def isSymmetricQueue(root: TreeNode) -> bool:
         elif left_node is None or right_node is None or left_node.val != right_node.val:
             return False
 
-        queue.append(left_node.left)    # 加入左节点左孩
+        queue.append(left_node.left)  # 加入左节点左孩
         queue.append(right_node.right)  # 加入右节点右孩子
-        queue.append(left_node.right)   # 加入左节点右孩子
-        queue.append(right_node.left)   # 加入右节点左孩子
+        queue.append(left_node.right)  # 加入左节点右孩子
+        queue.append(right_node.left)  # 加入右节点左孩子
 
     return True
 
