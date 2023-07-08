@@ -37,16 +37,16 @@ def invertTreeLevelOrder(root: TreeNode) -> TreeNode:
     """
     level order遍历的写法，遍历tree
     """
-    quene = [root]
-    while len(quene) > 0:
-        size = len(quene)
+    queue = [root]
+    while len(queue) > 0:
+        size = len(queue)
         for i in range(size):
-            front_node = quene.pop(0)
+            front_node = queue.pop(0)
             front_node.right, front_node.left = front_node.left, front_node.right   # 中
             if front_node.left:                                                         # 空节点不入栈
-                quene.append(front_node.left)                                           # 左
+                queue.append(front_node.left)                                           # 左
             if front_node.right:
-                quene.append(front_node.right)                                          # 右
+                queue.append(front_node.right)                                          # 右
 
     return root
 
