@@ -16,6 +16,7 @@ def traversal(tree_node, results):
 
 def inorderTraversal(root: TreeNode) -> [int]:
     """
+    Time O(n)
     二叉树的中序遍历，前序顾名思义就是每个二叉树的中间节点在中间的时候进行读取，顺序为左中右
     """
     results = []
