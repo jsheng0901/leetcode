@@ -9,8 +9,8 @@ def getDepth(node):
     if node is None:
         return 0
 
-    left_depth = getDepth(node.left);       # 左
-    right_depth = getDepth(node.right);     # 右
+    left_depth = getDepth(node.left)  # 左
+    right_depth = getDepth(node.right)  # 右
 
     # 当一个左子树为空，右不为空，这时并不是最低点
     if node.left is None and node.right is not None:
@@ -19,13 +19,15 @@ def getDepth(node):
     elif node.left is not None and node.right is None:
         return 1 + left_depth
 
-    depth = 1 + min(left_depth, right_depth) # 中
+    depth = 1 + min(left_depth, right_depth)  # 中
 
     return depth
 
 
 def minDepth(root: TreeNode) -> int:
     """
+    Time O(n)
+    Space O(log(n))
     后序遍历，区别在于左右有一个为None的时候不是最小depth，因为要找到左右同时为None的叶子节点的深度，深度是有一个node就是一层
     """
 

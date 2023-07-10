@@ -9,15 +9,17 @@ def getNodeNumber(node):
     if node is None:
         return 0
 
-    left_number = getNodeNumber(node.left)       # 左
-    right_number = getNodeNumber(node.right)     # 右
-    depth = 1 + left_number + right_number       # 中
+    left_number = getNodeNumber(node.left)  # 左
+    right_number = getNodeNumber(node.right)  # 右
+    depth = 1 + left_number + right_number  # 中
 
     return depth
 
 
 def countNodes(root: TreeNode) -> int:
     """
+    Time O(n)
+    Space O(log(n))
     依然是后序遍历，此题同最大深度，每次遍历一颗tree的时候记录左右两边的节点数量再加上中间节点自己
     """
     return getNodeNumber(root)
@@ -25,6 +27,8 @@ def countNodes(root: TreeNode) -> int:
 
 def countNodesQueue(root: TreeNode):
     """
+    Time O(n)
+    Space O(n)
     层序遍历queue方法
     """
     queue = [root]
@@ -57,9 +61,10 @@ class Solution:
 
     def countNodes(self, root: TreeNode) -> int:
         """
+        Time O(log(n))
+        Space O(log(n))
         完全二叉树，利用数学公式计算node 个数，找到full binary tree的时候就直接计算个数
-        :param root:
-        :return:
+        前序遍历递归写法，先处理中间节点，此处为check中间节点的子节点是不是满二叉树
         """
         if not root:
             return 0
