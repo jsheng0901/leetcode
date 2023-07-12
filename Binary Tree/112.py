@@ -30,7 +30,10 @@ def traversal(node, count):
 
 
 def hasPathSum(root: TreeNode, targetSum: int) -> bool:
-
+    """
+    如果需要搜索整棵二叉树且需要处理递归返回值，递归函数就需要返回值
+    如果要搜索其中一条符合条件的路径，那么递归一定需要返回值，因为遇到符合条件的路径了就要及时返回。此题情况。
+    """
     if root is None:
         return False
 
@@ -41,10 +44,7 @@ class Solution:
     def getSum(self, node, value, target):
         """
         前序遍历的方法，累加当前节点，遇到叶子节点的时候判断剩下的value是不是刚好是此时叶子节点的val
-        :param node:
-        :param value:
-        :param target:
-        :return:
+        此方法没有回溯，因为下一次的逻辑在下一层处理，并没有影响这一次节点当前value总和
         """
         if node.left is None and node.right is None:
             if target - value == node.val:
@@ -54,7 +54,7 @@ class Solution:
 
         value += node.val
 
-        if node.left:
+        if node.left:   # 此处没有回溯，因为value就是当前节点总和，下一层再处理下一层的节点总和
             left = self.getSum(node.left, value, target)
         else:
             left = False
