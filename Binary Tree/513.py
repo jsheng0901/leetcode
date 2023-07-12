@@ -16,7 +16,7 @@ class Solution1:
                 self.max_length = length
                 self.max_left = node.val
 
-        if node.left:               # 此题一定先找到同一层的最左边的节点，因为是中左右的遍历顺序
+        if node.left:               # 此题一定先找到同一层的最左边的节点，因为是中左右的遍历顺序，同一层的时候一定先从最左边开始遍历
             length += 1             # 所以如果同一层有两个节点，不会进入 length > self.max_length
             self.traversal(node.left, length)
             length -= 1
@@ -27,7 +27,7 @@ class Solution1:
             length -= 1
         return
 
-    def findBottomLeftValue(self, root: TreeNode) -> int:
+    def findBottomLeftValue(self, root: TreeNode) -> float:
 
         if root is not None:
             self.traversal(root, 0)
@@ -36,6 +36,10 @@ class Solution1:
 
 
 class Solution2:
+    """
+    Time O(n)
+    层序遍历，每次记录每一层第一个数值，最终就是最后一层最左边节点数值
+    """
     def findBottomLeftValue(self, root: TreeNode) -> int:
         queue = []
         if root is not None:
