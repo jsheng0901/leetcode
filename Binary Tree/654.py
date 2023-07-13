@@ -11,8 +11,9 @@ class TreeNode:
 def constructMaximumBinaryTree(nums: List[int]) -> Optional[TreeNode]:
     """
     构造树一般采用的是前序遍历，因为先构造中间节点，然后递归构造左子树和右子树。
+    一般情况来说：如果让空节点（空指针）进入递归，就不加if，如果不让空节点进入递归，就加if限制一下， 终止条件也会相应的调整
     """
-    if len(nums) == 0:  # 到达叶子结点后返回None
+    if len(nums) == 0:  # 到达叶子节点的空节点后返回None, 因为会有空节点进入递归
         return None
 
     if len(nums) == 1:  # 返回叶子结点
