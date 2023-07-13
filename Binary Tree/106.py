@@ -1,3 +1,6 @@
+from typing import Optional, List
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -5,7 +8,10 @@ class TreeNode:
         self.right = right
 
 
-def traversal(inorder, postorder):
+def traversal(inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+    """
+    构造树一般采用的是前序遍历，因为先构造中间节点，然后递归构造左子树和右子树。
+    """
     if len(postorder) == 0:
         return None
 
@@ -39,7 +45,7 @@ def traversal(inorder, postorder):
     return root_node
 
 
-def buildTree(inorder: [int], postorder: [int]) -> TreeNode:
+def buildTree(inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
     if len(inorder) == 0 or len(postorder) == 0:
         return None
 

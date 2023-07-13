@@ -1,3 +1,6 @@
+from typing import Optional, List
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -5,11 +8,14 @@ class TreeNode:
         self.right = right
 
 
-def constructMaximumBinaryTree(nums: [int]) -> TreeNode:
-    if len(nums) == 0:
+def constructMaximumBinaryTree(nums: List[int]) -> Optional[TreeNode]:
+    """
+    构造树一般采用的是前序遍历，因为先构造中间节点，然后递归构造左子树和右子树。
+    """
+    if len(nums) == 0:  # 到达叶子结点后返回None
         return None
 
-    if len(nums) == 1:
+    if len(nums) == 1:  # 返回叶子结点
         node = TreeNode(nums[0])
         return node
 
