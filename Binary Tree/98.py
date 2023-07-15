@@ -16,8 +16,9 @@ def traversal(root, vec):
 def isValidBST(root: TreeNode) -> bool:
     """
     中序遍历转化成vector来判断大小，因为中序遍历后一定是从小到大的顺序
-    :param root:
-    :return:
+    Time O(n)
+    Space O(n)
+    n == number of node
     """
 
     vec = []
@@ -32,16 +33,21 @@ def isValidBST(root: TreeNode) -> bool:
 
 class Solution:
     def __init__(self):
-        self.pre = None     # 用一个指针来指代前一个节点
+        self.pre = None  # 用一个指针来指代前一个节点
 
     def traversal(self, node):
-        """同样是中序遍历，中间的时候处理逻辑"""
+        """
+        同样是中序遍历，中间的时候处理逻辑
+        Time O(n)
+        Space O(1)
+        n == number of node
+        """
         if node is None:
             return True
 
         left = self.traversal(node.left)
 
-        if self.pre is not None and self.pre.val >= node.val:
+        if self.pre is not None and self.pre.val >= node.val:  # 判断前一个value是不是比这个小
             return False
         self.pre = node
 
