@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -8,8 +11,6 @@ class TreeNode:
 def traversal(root, vec):
     """
     中序遍历并记录所有数值
-    :param root:
-    :return:
     """
     if root is None:
         return
@@ -21,8 +22,6 @@ def traversal(root, vec):
 def getMinimumDifference(root: TreeNode) -> int:
     """
     中序遍历，BTS一般饿哦们都采用中序遍历，因为中序遍历出来的结果刚好是从小到大的有序list
-    :param root:
-    :return:
     """
     vec = []
     traversal(root, vec)
@@ -56,11 +55,11 @@ class Solution:
         self.pre = root
         self.traversal(root.right)   # 右
 
-    def getMinimumDifference(self, root: TreeNode) -> int:
+    def getMinimumDifference(self, root: TreeNode) -> Optional[float]:
         """
+        Time O(n)
+        Space O(1)
         此方法可以节约空间，不需要额外记录list数组，也不需要额外loop一遍list，记录previous node和current node然后比较大小并更新result
-        :param root:
-        :return:
         """
 
         self.traversal(root)

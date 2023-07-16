@@ -1,3 +1,6 @@
+from typing import List
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -24,8 +27,6 @@ def traversal(root, dict):
 def findMode(root: TreeNode) -> [int]:
     """
     中序遍历，BTS一般饿哦们都采用中序遍历，因为中序遍历出来的结果刚好是从小到大的有序list，此处是dictionary记录频率
-    :param root:
-    :return:
     """
     dict = {}
     traversal(root, dict)
@@ -60,7 +61,7 @@ class Solution:
             self.count += 1
         else:
             self.count = 1
-        # 记录前一个
+        # 记录前一个node
         self.pre = root
 
         if self.count == self.max_value:    # 如果和最大值相同，放进result中
@@ -69,15 +70,15 @@ class Solution:
         if self.count > self.max_value:     # 如果计数大于最大值频率
             self.max_value = self.count     # 更新最大频率
             self.result = []                # 很关键的一步，不要忘记清空result，之前result里的元素都失效了
-            self.result.append(root.val);
+            self.result.append(root.val)
 
         self.traversal(root.right)   # 右
 
-    def findMode(self, root: TreeNode) -> int:
+    def findMode(self, root: TreeNode) -> List[any]:
         """
+        Time O(n)
+        Space O(1)
         此方法可以节约空间，不需要额外记录频率，也不需要额外loop一遍dict，记录previous node和current node然后比较频率并更新result
-        :param root:
-        :return:
         """
 
         self.traversal(root)
