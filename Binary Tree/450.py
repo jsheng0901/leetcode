@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -5,12 +8,9 @@ class TreeNode:
         self.right = right
 
 
-def deleteNode(root: TreeNode, key: int) -> TreeNode:
+def deleteNode(root: TreeNode, key: int) -> Optional[TreeNode]:
     """
     五种特殊情况对应的删除要搞清楚怎么操作，同样还是利用二叉搜索树额特性
-    :param root:
-    :param key:
-    :return:
     """
     if root is None:
         return root         # 第一种情况：没找到删除的节点，遍历到空节点直接返回了
@@ -37,7 +37,7 @@ def deleteNode(root: TreeNode, key: int) -> TreeNode:
 
             return root.right         # 返回旧root的右孩子作为新root
 
-    if root.val > key:
+    if root.val > key:  # return node同时实现实现赋值和删除
         root.left = deleteNode(root.left, key)
 
     if root.val < key:
