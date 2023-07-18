@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -5,13 +8,9 @@ class TreeNode:
         self.right = right
 
 
-def traversal(nums, left, right) -> 'TreeNode':
+def traversal(nums, left, right) -> Optional[TreeNode]:
     """
     构造二叉搜索树，按照中间分开的方式，左边及时左孩子，右边是右孩子
-    :param nums:
-    :param left:
-    :param right:
-    :return:
     """
     if left > right:
         return None

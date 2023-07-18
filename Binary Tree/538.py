@@ -12,8 +12,7 @@ class Solution:
     def traversal(self, cur):
         """
         中序遍历反着来
-        :param cur:
-        :return:
+        遍历整棵树不需要return任何值，也不需要对返回值做处理
         """
         if cur is None:
             return
@@ -26,8 +25,6 @@ class Solution:
     def convertBST(self, root: TreeNode) -> TreeNode:
         """
         反中序遍历然后累加，右中左，用pre cur双指针记录累加, 用一个global variable
-        :param root:
-        :return:
         """
         self.traversal(root)
         return root
@@ -40,8 +37,6 @@ class SolutionStack:
     def traversal(self, cur):
         """
         中序遍历反着来
-        :param cur:
-        :return:
         """
         stack = []
         while cur is not None or len(stack) > 0:
@@ -57,8 +52,6 @@ class SolutionStack:
     def convertBST(self, root: TreeNode) -> TreeNode:
         """
         反中序遍历然后累加，右中左，用pre cur双指针记录累加, 用一个global variable
-        :param root:
-        :return:
         """
         self.traversal(root)
         return root

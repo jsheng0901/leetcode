@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -5,13 +8,9 @@ class TreeNode:
         self.right = right
 
 
-def trimBST(root: TreeNode, low: int, high: int) -> TreeNode:
+def trimBST(root: TreeNode, low: int, high: int) -> Optional[TreeNode]:
     """
-    如果遇到不符合的节点，则直接把父节点连接给子节点的root
-    :param root:
-    :param low:
-    :param high:
-    :return:
+    如果遇到不符合的节点，则直接把父节点连接给子节点下面符合结果的root节点
     """
     if root is None:
         return None
@@ -30,11 +29,11 @@ def trimBST(root: TreeNode, low: int, high: int) -> TreeNode:
     return root
 
 
-def trimBSTLoop(root: TreeNode, low: int, high: int) -> TreeNode:
+def trimBSTLoop(root: TreeNode, low: int, high: int) -> Optional[TreeNode]:
     if root is None:
         return None
 
-    while root is not None (root.val < low or root.val > high):
+    while root is not None and (root.val < low or root.val > high):
         if root.val < low:
             root = root.right          # 小于L往右走
         if root.val > high:
