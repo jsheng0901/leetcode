@@ -13,6 +13,7 @@ class Solution:
         """
         if sum > target_sum:  # 剪枝操作
             return  # 如果path.size() == k 但sum != targetSum 直接返回
+        # 也可以不需要sum，直接判断sum(self.path)
 
         if len(self.path) == k:
             if sum == target_sum:
@@ -24,6 +25,11 @@ class Solution:
             # 此处开始从宽度到深度进行遍历，每一个宽度里面用递归遍历完深度
             sum += i    # 处理
             self.path.append(i)  # 处理节点
+            # 也可以在回溯前就判断总和进行减枝
+            # if (sum > targetSum)
+            #   sum -= i # 剪枝之前先把回溯做了
+            #   self.path = self.path[:len(self.path) - 1] # 剪枝之前先把回溯做了
+            #   return
             self.backtracking(k, target_sum, sum, i + 1)     # 注意i + 1
             # 调整startIndex
             sum -= i        # 回溯
