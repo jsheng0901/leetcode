@@ -5,7 +5,9 @@ class Solution:
 
     def backtracking(self, candidates, target, sum, start_index):
         """
-        与求和一样，只是这里树的深度没有限制，直到总和超过target就停止递归
+        与求和一样，只是这里树的深度没有限制，直到总和超过target就停止递归，
+        此处同样不一定需要传入sum，可以直接sum(self.path)来判断
+        如果是一个集合来求组合的话，就需要startIndex，如果是多个集合取组合，各个集合之间相互不影响，那么就不用startIndex
         """
         if sum > target:
             return

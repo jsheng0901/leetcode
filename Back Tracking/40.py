@@ -6,8 +6,9 @@ class Solution:
     def backtracking(self, candidates, target, sum, start_index, used):
         """
         与求和一样，但是我们不能在同一层树里面使用同样的数字，同一个树枝里面可以重复
+        此处同样不一定需要传入sum，可以直接sum(self.path)来判断
         """
-        if sum > target:
+        if sum > target:    # 此处判断等同于if sum + candidates[i] <= target的减枝处理，可二选一
             return
 
         if sum == target:
@@ -22,6 +23,9 @@ class Solution:
                 # 要对同一树层使用过的元素进行跳过
                 if i > 0 and candidates[i] == candidates[i - 1] and used[i - 1] is False:
                     continue
+                # 另一种去重方式，用start index来判断是不是当前数字之前已经使用过，可以省去used数组的使用此方法
+                # if i > start_index and candidates[i] == candidates[i - 1]:
+                #     continue
                 sum += candidates[i]
                 self.path.append(candidates[i])
                 used[i] = True
