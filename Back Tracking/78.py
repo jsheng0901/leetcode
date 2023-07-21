@@ -7,10 +7,11 @@ class Solution:
     def backtracking(self, nums, start_index):
         """
         与求组合一样，只是这里不要求剪值也不要求限制节点，遍历所有叶子节点并记录下来就行
+        子集是收集树形结构中树的所有节点的结果。而组合问题、分割问题是收集树形结构中叶子节点的结果。
         """
         self.result.append(self.path_copy)   # 收集子集，要放在终止添加的上面，否则会漏掉自己
 
-        if start_index >= len(nums):
+        if start_index >= len(nums):    # 终止条件可以不加，因为我们本来就要遍历整棵树，并且每次递归start index都会+1
             return
 
         for i in range(start_index, len(nums)):
@@ -35,6 +36,7 @@ class Solution:
                 path.append(nums[i])
                 backtrack(nums, i + 1)  # 递归
                 path.pop()  # 回溯
+
 
 s = Solution()
 print(s.subsets(nums=[2, 3, 5]))

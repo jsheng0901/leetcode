@@ -1,4 +1,7 @@
-class Solution:
+from typing import List
+
+
+class Solution1:
     def __init__(self):
         self.result = []  # 存放组合集合
         self.path = []  # 符合条件的组合
@@ -40,5 +43,43 @@ class Solution:
         return self.result
 
 
-s = Solution()
+class Solution2:
+    def __init__(self):
+        self.result = []
+        self.path = []
+
+    def check(self, s):
+        left = 0
+        right = len(s) - 1
+
+        while left < right:
+            if s[left] != s[right]:
+                return False
+            left += 1
+            right -= 1
+
+        return True
+
+    def backtracking(self, s, index):
+        if index >= len(s):
+            self.result.append(self.path)
+            return
+
+        for i in range(index, len(s)):
+            sub = s[index: i + 1]
+            if self.check(sub):
+                self.path.append(sub)
+                self.backtracking(s, i + 1)
+                self.path = self.path[:-1]
+
+        return
+
+    def partition(self, s: str) -> List[List[str]]:
+
+        self.backtracking(s, 0)
+
+        return self.result
+
+
+s = Solution1()
 print(s.partition(s="aab"))
