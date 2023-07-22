@@ -7,6 +7,7 @@ class Solution:
     def backtracking(self, nums, start_index, used):
         """
         与求组合一样，只是这里不要求剪值也不要求限制节点，遍历所有叶子节点并记录下来就行
+        一个元素不能重复使用，所以需要startIndex
         """
         self.result.append(self.path_copy)   # 收集子集，要放在终止添加的上面，否则会漏掉自己
 
@@ -19,6 +20,8 @@ class Solution:
             # 而我们要对同一树层使用过的元素进行跳过
             if i > 0 and nums[i] == nums[i - 1] and used[i - 1] is False:
                 continue
+            # if i > start_index and nums[i] == nums[i - 1]:    另一种不需要used数组的去重方式
+            #     continue
             self.path.append(nums[i])   # 子集收集元素
             self.path_copy = self.path.copy()           # deep copy, 否则result里面的数据会随着path的变化而变化
             used[i] = True
