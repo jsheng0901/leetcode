@@ -23,9 +23,10 @@ class Solution:
         else:
             return False
 
-        return False
-
     def findItinerary(self, tickets: [[str]]) -> [str]:
+        """
+        深度搜索题型包含回溯在内，遍历整棵树找到符合条件的某一条树枝路径
+        """
         # 记录映射关系
         for i in tickets:
             if i[0] not in self.targets:

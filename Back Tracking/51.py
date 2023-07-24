@@ -36,6 +36,7 @@ class Solution:
 
     def backtracking(self, n, row, chessboard):
         if row == n:
+            # self.chessboard_copy = copy.deepcopy(chessboard)   # 也可以在这做 copy, avoid 回溯 will change chessboard
             self.result.append(["".join(each) for each in self.chessboard_copy])
             return
 
