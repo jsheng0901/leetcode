@@ -20,10 +20,10 @@ class Solution:
         for i in range(len(nums)):
             # used[i - 1] == true，说明同一树支candidates[i - 1] 使用过
             # used[i - 1] == false，说明同一树层candidates[i - 1] 使用过
-            # 而我们要对同一树层使用过的元素进行跳过
+            # 而我们要对同一树层使用过的元素进行跳过，同一层去重效率更高，需要走过的node更少
             if i > 0 and nums[i] == nums[i - 1] and used[i - 1] is False:
                 continue
-            # 同一个递归中我们要拍段这个元素是否已经使用过，比如已经使用了1，则不能在下一个使用1，而是2或者3，通过used数组记录使用情况
+            # 同一个递归中我们要判断这个元素是否已经使用过，比如已经使用了1，则不能在下一个使用1，而是2或者3，通过used数组记录使用情况
             if used[i]:
                 continue        # path里已经收录的元素，直接跳过
             used[i] = True
