@@ -4,9 +4,6 @@ class Solution1:
         time: O(nlogn) + O(n) = O(nlogn)
         贪心算法的应用，满足每个局部的最优，则满足全局的最优,
         先排序，然后从后向前loop，找到符合条件的小孩
-        :param g:
-        :param s:
-        :return:
         """
         g.sort()
         s.sort()

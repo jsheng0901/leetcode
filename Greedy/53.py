@@ -3,13 +3,12 @@ class Solution:
         """
         time: O(n), space: O(1)
         贪心的原则是当局部总和是0的时候我们就取下一个作为连续区间起始位置, 然后更新记录最大总和
-        :param nums:
-        :return:
         """
         result = float('-inf')
         count = 0  # 临时记录总和
         for i in nums:
             count += i
+            # 另一种写法 result = max(result, count)
             if count > result:  # 取区间累计的最大值（相当于不断确定最大子序终止位置）
                 result = count
 
