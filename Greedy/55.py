@@ -1,10 +1,10 @@
 class Solution:
     def canJump(self, nums: [int]) -> bool:
         """
-        「那么这个问题就转化为跳跃覆盖范围究竟可不可以覆盖到终点！」
-        「贪心算法局部最优解：每次取最大跳跃步数（取最大覆盖范围），整体最优解：最后得到整体最大覆盖范围，看是否能到终点」
-        :param nums:
-        :return:
+        Time O(n)
+        Space O(1)
+        这个问题就转化为跳跃覆盖范围究竟可不可以覆盖到终点！
+        贪心算法局部最优解：每次取最大跳跃步数（取最大覆盖范围），整体最优解：最后得到整体最大覆盖范围，看是否能到终点
         """
         cover = 0
         if len(nums) == 1:
@@ -15,7 +15,7 @@ class Solution:
             if i > cover:
                 return False
             else:
-                cover = max(i + nums[i], cover)
+                cover = max(i + nums[i], cover)     # 取最大覆盖范围
                 if cover >= len(nums) - 1:
                     return True
 
