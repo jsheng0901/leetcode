@@ -49,16 +49,16 @@ class Solution:
         if left == 1 or right == 1:
             return 2
 
-        # 以上代码我没有使用else，主要是为了把各个分支条件展现出来，这样代码有助于读者理解
         # 这个 return -1 逻辑不会走到这里。
-        return -1
+        # return -1
 
     def minCameraCover(self, root: TreeNode) -> int:
         """
+        Time O(n)
+        Space O(n)
         局部最优：让叶子节点的父节点安摄像头，所用摄像头最少，整体最优：全部摄像头数量所用最少！
         大体思路就是从低到上，先给叶子节点父节点放个摄像头，然后隔两个节点放一个摄像头，直至到二叉树头结点。
-        :param root:
-        :return:
+        0，1，2 代表三种状态，0：无覆盖，1：有摄像头，2：有覆盖
         """
 
         #   情况4
