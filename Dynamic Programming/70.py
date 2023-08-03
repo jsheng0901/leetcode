@@ -1,10 +1,9 @@
-class Solution:
+class Solution1:
     def climbStairs(self, n: int) -> int:
         """
-        time O(n), space O(n)
+        Time O(n)
+        Space O(n)
         动态规划思路，i的方法取决于前两步方法的和，其实就是斐波那契数列，只是没有0的状态
-        :param n:
-        :return:
         """
         if n <= 1:
             return n
@@ -22,9 +21,8 @@ class Solution:
 
     def climbStairs2(self, n: int) -> int:
         """
-        time O(n), space O(1), save space for only store three value
-        :param n:
-        :return:
+        Time O(n)
+        Space O(1), save space for only store three value
         """
         if n <= 1:
             return n
@@ -33,19 +31,17 @@ class Solution:
         dp = [0, 1, 2]
 
         for i in range(3, n + 1):
-            s = dp[1] + dp[2]
+            tmp = dp[1] + dp[2]
             dp[1] = dp[2]
-            dp[2] = s
+            dp[2] = tmp
 
         return dp[-1]
 
 
-class Solution:
+class Solution2:
     def climbStairs(self, n: int) -> int:
         """
         完全背包思路，爬多少步是物品，到底几层是背包的weight，dp[i]表示背包重量是i的时候有几种方法放满
-        :param n:
-        :return:
         """
         if n <= 1:
             return n
@@ -62,5 +58,5 @@ class Solution:
         return dp[n]
 
 
-s = Solution()
+s = Solution1()
 print(s.climbStairs2(5))

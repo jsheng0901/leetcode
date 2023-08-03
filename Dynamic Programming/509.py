@@ -1,9 +1,8 @@
 class Solution:
     def fib(self, n: int) -> int:
         """
-        time O(n), space O(n)
-        :param n:
-        :return:
+        Time O(n)
+        Space O(n)
         """
         if n <= 1:
             return n
@@ -21,9 +20,9 @@ class Solution:
 
     def fib2(self, n: int) -> int:
         """
-        time O(n), space O(1), save space for only store two value
-        :param n:
-        :return:
+        Time O(n)
+        Space O(1)
+        save space for only store two value
         """
         if n <= 1:
             return n
@@ -32,18 +31,17 @@ class Solution:
         dp = [0, 1]
 
         for i in range(2, n + 1):
-            s = dp[0] + dp[1]
+            tmp = dp[0] + dp[1]
             dp[0] = dp[1]
-            dp[1] = s
+            dp[1] = tmp
 
         return dp[-1]
 
     def fib3(self, n: int) -> int:
         """
-        time O(2^n), space O(n)
+        Time O(2^n)
+        Space O(n)  递归的系统栈所占空间
         递归的方式，树状图
-        :param n:
-        :return:
         """
         if n <= 1:
             return n

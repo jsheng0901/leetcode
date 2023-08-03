@@ -1,10 +1,9 @@
 class Solution:
     def minCostClimbingStairs(self, cost: [int]) -> int:
         """
-        time O(n), space O(n)
+        Time O(n)
+        Space O(n)
         初始化前两步，第三步取决去前两步最小的数据加当前这步
-        :param cost:
-        :return:
         """
         dp = [0] * len(cost)
         dp[0] = cost[0]
@@ -17,10 +16,9 @@ class Solution:
 
     def minCostClimbingStairs2(self, cost: [int]) -> int:
         """
-        time O(n), space O(1), save space for only store two value
+        Time O(n)
+        Space O(1), save space for only store two value
         初始化前两步，第三步取决去前两步最小的数据加当前这步
-        :param cost:
-        :return:
         """
 
         dp = [cost[0], cost[1]]
@@ -31,6 +29,27 @@ class Solution:
             dp[1] = dpi
 
         return min(dp)
+
+    def minCostClimbingStairs3(self, cost: [int]) -> int:
+        """
+        Time O(n)
+        Space O(n)
+        另一种写法，当到达最后一步的时候判断一下，改变动态规划公示
+        """
+        if len(cost) <= 2:
+            return min(cost)
+
+        dp = [0] * len(cost)
+        dp[0] = cost[0]
+        dp[1] = cost[1]
+
+        for i in range(2, len(cost)):
+            if i != len(cost) - 1:      # 判断是否是最后一步
+                dp[i] = min(dp[i - 1] + cost[i], dp[i - 2] + cost[i])
+            else:
+                dp[i] = min(dp[i - 1], dp[i - 2] + cost[i])
+
+        return dp[-1]
 
 
 s = Solution()
