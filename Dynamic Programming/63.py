@@ -1,7 +1,8 @@
 class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: [[int]]) -> int:
         """
-        time: O(m*n), space: O(m*n)
+        Time: O(m*n)
+        Space: O(m*n)
         动态规划的解法，此题和没有障碍的情况基本一致，区别在于遇到障碍的时候我们只需要设置为初始值0就行
         """
         # 初始位置有障碍的时候为0
