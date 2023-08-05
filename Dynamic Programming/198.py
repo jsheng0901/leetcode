@@ -1,9 +1,9 @@
 class Solution:
     def rob(self, nums: [int]) -> int:
         """
-        动态规划，当前状态由前一天或者前两天的状态决定
-        :param nums:
-        :return:
+        Time O(n)
+        Space O(n)
+        当前状态偷与不偷东由前一天或者前两天的状态决定
         """
         if len(nums) == 1:
             return nums[0]

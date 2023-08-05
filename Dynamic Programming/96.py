@@ -1,6 +1,9 @@
 class Solution:
     def numTrees(self, n: int) -> int:
-        # time O(n^2), space O(n)
+        """
+        Time O(n^2)
+        Space O(n)
+        """
         # dp[i] ：1到i为节点组成的二叉搜索树的个数为dp[i]。
         dp = [0] * (n + 1)
 
