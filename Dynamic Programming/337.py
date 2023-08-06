@@ -23,10 +23,10 @@ class Solution:
 
     def rob(self, root: TreeNode) -> int:
         """
+        Time O(n)
+        Space O(logn) 递归系统占用空间
         树形结构的动态规划问题, 结合递归步骤和动态规划步骤, 一定要用后序遍历，因为要在中序的时候处理逻辑，
-        每一步node虑两种状态偷或不偷
-        :param root:
-        :return:
+        每一步node虑两种状态偷或不偷两种状态，用长度为2的数组记录[不偷当前节点，偷当前节点]
         """
         result = self.tree_rob(root)
 
