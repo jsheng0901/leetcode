@@ -3,8 +3,6 @@ class Solution:
         """
         和121一样，只是计算持有股票的时候要考虑之前的盈利情况
         O(n) time, O(n) space
-        :param prices:
-        :return:
         """
         dp = [[0, 0] for i in range(len(prices))]
         dp[0][0] = -prices[0]
