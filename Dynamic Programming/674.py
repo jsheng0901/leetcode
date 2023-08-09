@@ -1,11 +1,10 @@
 class Solution:
-    def findLengthOfLCIS(self, nums: [int]) -> int:
+    def findLengthOfLCIS1(self, nums: [int]) -> int:
         """
-        dp: time O(n), space O(n)
-        greedy: time O(n), space O(1)
+        动态规划
+        Time O(n)
+        Space O(n)
         此题和300很像，区别在于连续，所有每次都要判断大小，并记录最长连续子序列
-        :param nums:
-        :return:
         """
         if len(nums) <= 1:
             return len(nums)
@@ -20,6 +19,24 @@ class Solution:
                     result = dp[i]
         return result
 
+    def findLengthOfLCIS2(self, nums: [int]) -> int:
+        """
+        贪心
+        Time O(n)
+        Space O(1)
+        """
+        result = 1
+        count = 1
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i - 1]:
+                count += 1
+            else:
+                count = 1     # count记录此时最长序列长度，一直要更新，当递增断的时候从新计算
+
+            result = max(result, count)
+
+        return result
+
 
 s = Solution()
-print(s.findLengthOfLCIS(nums=[10, 9, 2, 5, 3, 7, 101, 18]))
+print(s.findLengthOfLCIS1(nums=[10, 9, 2, 5, 3, 7, 101, 18]))

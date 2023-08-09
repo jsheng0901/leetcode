@@ -1,9 +1,9 @@
 class Solution:
     def lengthOfLIS(self, nums: [int]) -> int:
         """
-        动态规划经典题目, 位置i的最长升序子序列等于j从0到i-1各个位置的最长升序子序列 + 1 的最大值。
-        :param nums:
-        :return:
+        Time O(n^2)
+        Space O(n)
+        动态规划公示：位置i的最长升序子序列等于j从0到i-1各个位置的最长升序子序列 + 1 的最大值。
         """
         if len(nums) <= 1:
             return len(nums)
