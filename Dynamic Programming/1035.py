@@ -1,10 +1,9 @@
 class Solution:
     def maxUncrossedLines(self, nums1: [int], nums2: [int]) -> int:
         """
-        与1143一模一样
-        :param nums1:
-        :param nums2:
-        :return:
+        Time O(n * m) 两个数组长度乘积
+        Space O(n * m)
+        与1143一模一样，就是求最长公共子序列
         """
         dp = [[0] * (len(nums2) + 1) for i in range(len(nums1) + 1)]
 
