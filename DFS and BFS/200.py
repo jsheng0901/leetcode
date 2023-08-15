@@ -1,3 +1,25 @@
+# BFS搜索模版
+# dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]   # 表示四个方向
+# grid 是地图，也就是一个二维数组
+# visited标记访问过的节点，不要重复访问
+# x,y 表示开始搜索节点的下标
+# def bfs(grid, visited, x, y):
+#     queue = [(x, y)]    # 定义队列并且起始节点加入队列
+#     visited[x][y] = True    # 只要加入队列，立刻标记为访问过的节点
+#     while queue:     # 开始遍历队列里的元素
+#         cur = queue.pop(0)  # 从队列取头元素
+#         cur_x = cur[0]
+#         cur_y = cur[1]   # 当前节点坐标
+#         for d in dirs:   # 开始想当前节点的四个方向左右上下去遍历
+#             next_x = cur_x + d[0]
+#             next_y = cur_y + d[1]   # 获取周边四个方向的坐标
+#             if next_x < 0 or next_x >= grid.size() or next_y < 0 or next_y >= grid[0].size():
+#                 continue    # 坐标越界了，直接跳过
+#             if !visited[next_x][next_y]:  # 如果节点没被访问过
+#                 queue.append((next_x, next_y))  # 队列添加该节点为下一轮要遍历的节点
+#                 visited[next_x][next_y] = True      # 只要加入队列立刻标记，避免重复访问
+
+
 class Solution1:
     def dfs(self, grid, i, j):
         # 当超出棋盘范围，或者是0的时候则停止
