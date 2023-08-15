@@ -1,10 +1,9 @@
 class Solution:
     def search(self, nums: [int], target: int) -> int:
         """
+        Time O(logn)  二分法查找
+        Space O(1)
         此题一定要考虑两种大情况，每种大情况下有两个小情况，见注释
-        :param nums:
-        :param target:
-        :return:
         """
         left = 0
         right = len(nums) - 1
