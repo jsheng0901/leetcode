@@ -3,8 +3,13 @@ from collections import defaultdict
 
 class Solution1:
     def accountsMerge(self, accounts: [[str]]) -> [[str]]:
+        """
+        Time O(NKlogNK) N is number of account, k is max length of account, DFS需要走完所有account及node，sort需要logNK
+        Space O(NK) build adjacency list需要NK，seen也需要NK，DFS系统stack也需要NK
+        """
         email_to_name = {}
         graph = defaultdict(set)
+        # 构建graph，用dictionary的方式，表示first email链接所有其它email和email链接first email，并记录email对名字
         for acc in accounts:
             name = acc[0]
             for email in acc[1:]:
@@ -14,18 +19,37 @@ class Solution1:
 
         seen = set()
         ans = []
+        # stack way to write dfs
+        # for email in graph:
+        #     if email not in seen:
+        #         seen.add(email)
+        #         stack = [email]
+        #         component = []
+        #         while stack:
+        #             node = stack.pop()
+        #             component.append(node)
+        #             for nei in graph[node]:
+        #                 if nei not in seen:
+        #                     seen.add(nei)
+        #                     stack.append(nei)
+        #         ans.append([email_to_name[email]] + sorted(component))
+
+        def dfs(component, email):
+            # 记录进入dfs里面的email，能进递归一定先判断过符合条件
+            seen.add(email)
+            component.append(email)
+            for nei in graph[email]:    # loop所有邻居节点并判断是否seen过，没有见过则进入dfs递归
+                if nei not in seen:
+                    dfs(component, nei)
+
+        # loop循环check每一个node在graph里面
         for email in graph:
+            # 如果没有见过则说明是全新的component
             if email not in seen:
-                seen.add(email)
-                stack = [email]
+                # 初始化这个component为空
                 component = []
-                while stack:
-                    node = stack.pop()
-                    component.append(node)
-                    for nei in graph[node]:
-                        if nei not in seen:
-                            seen.add(nei)
-                            stack.append(nei)
+                dfs(component, email)
+                # 走完所有dfs路径后得到这个component所有节点，加入最终answer
                 ans.append([email_to_name[email]] + sorted(component))
 
         return ans
@@ -81,7 +105,7 @@ class Solution2:
         return ans
 
 
-s = Solution2()
+s = Solution1()
 print(s.accountsMerge(accounts=[["John", "johnsmith@mail.com", "john_newyork@mail.com"],
                                 ["John", "johnsmith@mail.com", "john00@mail.com"], ["Mary", "mary@mail.com"],
                                 ["John", "johnnybravo@mail.com"]]))
