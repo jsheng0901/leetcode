@@ -53,8 +53,8 @@ class Solution:
 
     def numDecodings2(self, s: str) -> int:
         """
-        Time O(n!)
-        Space O(n)
+        Time O(n!) 此题回溯就是排列问题，每一行树从n, n-1, n-2, ...一次递减，最终是n!
+        Space O(n) 递归深度为n，所以系统栈所用空间为O(n)
         回溯做法，列出所有组合，并check是否valid，如果valid并且走到最后一个index，则说明找到其中一条从头到底的路径，此时计数。
         """
 
