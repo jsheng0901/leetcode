@@ -1,9 +1,10 @@
+from typing import List
+
+
 class Solution:
     def merge(self, intervals: [[int]]) -> [[int]]:
         """
         那么我按照左边界排序，排序之后局部最优：每次合并都取最大的右边界，这样就可以合并更多的区间了，整体最优：合并所有重叠的区间。
-        :param intervals:
-        :return:
         """
         if len(intervals) == 0:
             return 0
@@ -13,7 +14,7 @@ class Solution:
 
         flag = False  # 标记最后一个区间有没有合并
         result = []
-        i = 1         # python 要设置其实点，并用while loop，不然没办法更新i的值用for loop只会 1,2,3,4往前走
+        i = 1  # python 要设置其实点，并用while loop，不然没办法更新i的值用for loop只会 1,2,3,4往前走
 
         while i < len(intervals):
             start = intervals[i - 1][0]  # 初始为i - 1 区间的左边界
@@ -38,10 +39,9 @@ class Solution:
 class Solution2:
     def merge(self, intervals: [[int]]) -> [[int]]:
         """
-        time： O（nlogn), space: O(1)
+        Time O(nlogn)
+        Space: O(1)
         那么我按照左边界排序，排序之后局部最优：每次合并都取最大的右边界，这样就可以合并更多的区间了，整体最优：合并所有重叠的区间。
-        :param intervals:
-        :return:
         """
         if len(intervals) == 0:
             return 0
@@ -49,7 +49,7 @@ class Solution2:
         # 先排序，按照第一个大小排序，然后从左向右遍历, 更新右边界
         intervals.sort(key=lambda x: x[0])
 
-        result = [intervals[0]]             # 次写法更简洁，每次更新result里面的最右边的节点就行，不用while loop
+        result = [intervals[0]]  # 写法更简洁，每次更新result里面的最右边的节点就行，不用while loop
 
         for i in range(1, len(intervals)):
             if result[-1][1] >= intervals[i][0]:
@@ -60,5 +60,24 @@ class Solution2:
         return result
 
 
-s = Solution2()
-print(s.merge(intervals=[[1, 3], [2, 6], [8, 10], [15, 18]]))
+class Solution3:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key=lambda x: x[0])
+        #  写法思路和第二种一样，只是这里要一直维护一个最右端的指针
+        right = intervals[0][1]
+        result = [intervals[0]]
+        for i in range(1, len(intervals)):
+            if intervals[i][0] <= right:
+                # 更新最右端指针
+                right = max(intervals[i][1], right)
+                result[-1][1] = right
+            else:
+                result.append(intervals[i])
+                # 更新最右端指针
+                right = result[-1][1]
+
+        return result
+
+
+s = Solution3()
+print(s.merge(intervals=[[2, 3], [2, 2], [3, 3], [1, 3], [5, 7], [2, 2], [4, 6]]))

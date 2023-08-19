@@ -1,7 +1,8 @@
 class Solution:
     def smallerNumbersThanCurrent(self, nums: [int]) -> [int]:
         """
-        O(nlog(n)) time, O(n) space
+        Time O(nlog(n))
+        Space O(n)
         构造新的sort后的数组，记录新的数组的数字和index的映射关系，此时只用记录重复数字的第一个index
         然后再次遍历原始数组，找到原始数字对应的sort后的index，这个数字就是最少小于此数字的个数
         """
