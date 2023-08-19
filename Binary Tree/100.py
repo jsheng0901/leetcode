@@ -8,6 +8,7 @@ class TreeNode:
 
 class Solution:
     def traversal(self, nodep, nodeq):
+        # 如果能都走到None，说明就是一样的结构，直接这里返回True
         if nodep is None and nodeq is None:
             return True
         if nodep is None and nodeq is not None:
@@ -23,6 +24,10 @@ class Solution:
         return left and right
 
     def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
-        """前序遍历，两个树同时进行，同时判断"""
+        """
+        Time O(n)
+        Space O(1)
+        前序遍历，两个树同时进行，同时判断
+        """
         return self.traversal(p, q)
 
