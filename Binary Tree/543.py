@@ -22,8 +22,12 @@ class Solution:
 
         return max(left, right) + 1
 
-    def diameterOfBinaryTree(self, root: [TreeNode]) -> int:
-        """记录每个节点的最大深度，同时记录最大diameter"""
+    def diameterOfBinaryTree(self, root: [TreeNode]) -> float:
+        """
+        Time O(n) 遍历所有node
+        Space O(n) 递归占用
+        记录每个节点的最大深度，同时记录最大diameter
+        """
         if root:
             self.traversal(root, 0)
 
