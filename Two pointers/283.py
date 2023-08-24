@@ -1,7 +1,8 @@
 class Solution:
     def moveZeroes(self, nums: [int]) -> None:
         """
-        Do not return anything, modify nums in-place instead.
+        Time O(n)
+        Space O(1)
         双指针思路，和移动target数值一模一样，只是这里target是0
         """
 
@@ -12,3 +13,8 @@ class Solution:
                 nums[p1], nums[p2] = nums[p2], nums[p1]
                 p1 += 1
 
+        return nums
+
+
+s = Solution()
+print(s.moveZeroes(nums=[0, 1, 0, 3, 12]))
