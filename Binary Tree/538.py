@@ -24,6 +24,8 @@ class Solution:
 
     def convertBST(self, root: TreeNode) -> TreeNode:
         """
+        Time O(n)
+        Space O(n)
         反中序遍历然后累加，右中左，用pre cur双指针记录累加, 用一个global variable
         """
         self.traversal(root)
