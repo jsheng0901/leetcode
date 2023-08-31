@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 
 class TreeNode:
@@ -8,23 +8,26 @@ class TreeNode:
         self.right = right
 
 
-def traversal(nums, left, right) -> Optional[TreeNode]:
-    """
-    构造二叉搜索树，按照中间分开的方式，左边及时左孩子，右边是右孩子
-    """
-    if left > right:
-        return None
+class Solution:
+    def build(self, nums, left, right):
+        if left > right:
+            return None
 
-    mid = left + ((right - left) // 2)
-    root = TreeNode(nums[mid])
-    root.left = traversal(nums, left, mid - 1)
-    root.right = traversal(nums, mid + 1, right)
+        mid = left + (right - left) // 2
+        node = TreeNode(nums[mid])
+        node.left = self.build(nums, left, mid - 1)
+        node.right = self.build(nums, mid + 1, right)
 
-    return root
+        return node
+
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        """
+        Time O(n)
+        Space O(n)
+        构造二叉搜索树，按照中间分开的方式，左边及时左孩子，右边是右孩子
+        """
+        return self.build(nums, 0, len(nums) - 1)
 
 
-def sortedArrayToBST(nums: [int]) -> TreeNode:
-    return traversal(nums, 0, len(nums) - 1)
-
-
-print(sortedArrayToBST(nums=[-20, -10, -3, -2, 0, 5, 7, 9, 12]).val)
+s = Solution()
+print(s.sortedArrayToBST(nums=[-20, -10, -3, -2, 0, 5, 7, 9, 12]).val)
