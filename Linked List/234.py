@@ -18,6 +18,11 @@ class Solution1:
         return True
 
     def isPalindrome(self, head: ListNode) -> bool:
+        """
+        Time O(n)
+        Space O(n)
+        先转化成数组，然后按照数组正常check回文。
+        """
         array = []
 
         cur = head
@@ -29,7 +34,7 @@ class Solution1:
 
 
 class Solution2:
-    def reverseList(self, head: ListNode) -> ListNode:
+    def reverse_list(self, head: ListNode) -> ListNode:
         """
         O(n) time
         0(1) space
@@ -44,7 +49,7 @@ class Solution2:
 
         return previous
 
-    def findMidNode(self, head):
+    def find_mid_node(self, head):
         slow = head
         fast = head
 
@@ -55,9 +60,14 @@ class Solution2:
         return slow
 
     def isPalindrome(self, head: ListNode) -> bool:
-        mid = self.findMidNode(head)    # 找到中间节点
+        """
+        Time O(n)
+        Space O(1)
+        先找中位数，然后reverse后半部分链表，然后正常顺序check两个部分的链表是否一致。
+        """
+        mid = self.find_mid_node(head)    # 找到中间节点
 
-        new_head = self.reverseList(mid.next)   # reverse中间节点后的部分
+        new_head = self.reverse_list(mid.next)   # reverse中间节点后的部分
 
         p1 = head
         p2 = new_head
@@ -87,6 +97,11 @@ class Solution3:
         return res
 
     def isPalindrome(self, head: ListNode) -> bool:
+        """
+        Time O(n)
+        Space O(n) recursive stack
+        后续遍历从底部开始check，用一个全局指针从头开始check，每次check两头是否相等，返回true/false。
+        """
         self.left = head
 
         return self.traversal(head)
