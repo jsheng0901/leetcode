@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -6,7 +9,7 @@ class TreeNode:
 
 
 class Solution1:
-    def connect(self, root: TreeNode) -> TreeNode:
+    def connect(self, root: TreeNode) -> Optional[TreeNode]:
         """
         Time O(n)
         Space O(n)
@@ -50,7 +53,7 @@ class Solution2:
         self.traversal(node2.left, node2.right)
         self.traversal(node1.right, node2.left)
 
-    def connect(self, root: TreeNode) -> TreeNode:
+    def connect(self, root: TreeNode) -> Optional[TreeNode]:
         """
         Time O(n)
         Space O(n)

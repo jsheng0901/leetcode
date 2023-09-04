@@ -12,7 +12,7 @@ class TreeNode:
 class Solution1:
     def traversal(self, node, node_list):
         if node is None:
-            return None
+            return
 
         node_list.append(node)
 

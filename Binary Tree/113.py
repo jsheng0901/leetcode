@@ -5,7 +5,6 @@ class TreeNode:
         self.right = right
 
 
-# TODO: results will be modified by path when path pop out
 class Solution1:
     def __init__(self):
         self.result = []
@@ -13,11 +12,13 @@ class Solution1:
 
     def traversal(self, node, count):
         """
+        Time O(n)
+        Space O(n)
         后序遍历，count是用来判断当前node是否满足总和，用减法来判断，记录所有路径，则不需要返回数值在递归过程中
         每层处理当前node的子节点的value和path
         """
         if node.left is None and node.right is None and count == 0:
-            self.result.append(self.path)
+            self.result.append(self.path[:])    # deep copy path
             return
         if node.left is None and node.right is None:
             return
@@ -56,6 +57,8 @@ class Solution2:
 
     def traversal(self, node, value, target):
         """
+        Time O(n)
+        Space O(n)
         前序遍历的写法，value处理当前节点value，path处理当前下一个子节点value
         path list 无法像value一样，只处理当前层的节点，path list会随着传入下一层而改变之前层path list的value
         """
@@ -97,6 +100,8 @@ class Solution3:
 
     def traversal(self, node, value, path, target):
         """
+        Time O(n)
+        Space O(n)
         前序遍历的写法，value处理当前节点value，path同时也处理当前节点value
         但path list会随着传入下一层而改变之前层path list的value，所以处理递归后要回溯pop out
         """
