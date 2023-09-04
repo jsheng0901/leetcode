@@ -1,9 +1,9 @@
 class Solution:
     def removeDuplicates(self, nums: [int]) -> int:
         """
-        双指针的应用，当遇到相等的时候，fast向前走，遇到不相等的时候，慢指针网跳一个并swap
-        :param nums:
-        :return:
+        Time O(n)
+        Space O(1)  in-place变化，没有额外空间开销。
+        双指针的应用，当遇到相等的时候，fast向前走，遇到不相等的时候，慢指针网跳一个并swap。
         """
         slow = 0
 
