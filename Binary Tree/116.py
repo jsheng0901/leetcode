@@ -65,3 +65,41 @@ class Solution2:
         self.traversal(root.left, root.right)
 
         return root
+
+
+class Solution3:
+    def traversal(self, node):
+        if node is None:
+            return
+        # 当前节点左节点链接
+        if node.left:
+            node.left.next = node.right
+        # 当前节点右节点链接
+        if node.right:
+            # check当前节点是否有next节点
+            if node.next:
+                node.right.next = node.next.left
+            else:
+                node.right.next = None
+
+        self.traversal(node.left)
+        self.traversal(node.right)
+
+    def connect(self, root: TreeNode) -> Optional[TreeNode]:
+        """
+        Time O(n)
+        Space O(n)
+        前序遍历的另一种写法，每次递归只传入当前节点，
+        """
+        self.traversal(root)
+
+        return root
+
+
+node1 = TreeNode(1)
+node2 = TreeNode(2)
+node3 = TreeNode(3)
+node1.left = node2
+node1.right = node3
+s = Solution3()
+print(s.connect(root=node1))
