@@ -1,7 +1,9 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         """
-        O(n ^ 2)
+        Time O(n^2)
+        Space O(n^2)
+        此题同647，一模一样，一个找多少个回文，一个找最长回文。
         dp[i][j]：表示区间范围[i,j]的子串是否是回文子串，如果是dp[i][j]为true，否则为false
         当s[i]与s[j]不相等，dp[i][j]一定是false。
         当s[i]与s[j]相等时，这就复杂一些了，有如下三种情况
@@ -32,3 +34,7 @@ class Solution:
                     right = j
 
         return s[left: right + 1]
+
+
+s = Solution()
+print(s.longestPalindrome(s="babad"))

@@ -10,7 +10,7 @@ class Solution:
     def longestPalindrome(self, s: str) -> str:
         """
         Time O(n^2)
-        Space O(n)
+        Space O(1)
         双指针版本，每一次从中间往两边判断最长回文，同时判断奇数情况回文和偶数情况回文，然后判断长度更新最长回文的结果。
         """
         result = ''
