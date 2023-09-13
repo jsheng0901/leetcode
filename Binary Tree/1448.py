@@ -24,8 +24,23 @@ class Solution:
         return
 
     def goodNodes(self, root: TreeNode) -> int:
-        """前序遍历，找最大值在每个path的时候，然后判断是不是good node"""
+        """
+        Time O(n)
+        Space O(n)
+        前序遍历整个树，找最大值在每个path的时候，并且传给下一个子树，然后判断是不是good node
+        """
         if root:
             self.traversal(root, float('-inf'))
 
         return self.count
+
+
+node1 = TreeNode(3)
+node2 = TreeNode(3)
+node3 = TreeNode(4)
+node4 = TreeNode(2)
+node1.left = node2
+node2.left = node3
+node2.right = node4
+s = Solution()
+print(s.goodNodes(root=node1))

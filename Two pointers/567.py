@@ -89,3 +89,7 @@ class Solution2:
                     window[d] -= 1
         # 未找到合法的子串，返回False
         return False
+
+
+s = Solution2()
+print(s.checkInclusion(s1="ab", s2="eidbaooo"))
