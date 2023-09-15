@@ -30,6 +30,8 @@ class Solution1:
 
     def searchRange(self, nums: [int], target: int) -> [int]:
         """
+        Time O(logn)
+        Space O(1)
         此处和普通二分法不一样的主要是等于的情况也要考虑进去，这样才可以找到两边的最小和最大的边界
         """
         upper = self.upper(nums, target)
@@ -119,9 +121,13 @@ class Solution:
         """
         Time O(logn)
         Space O(1)
-        同第一种写法，只是更详细一些
+        同第一种写法，二分法搜索模板题，只是更详细一些。
         """
         left = self.left_bound(nums, target)
         right = self.right_bound(nums, target)
 
         return [left, right]
+
+
+s = Solution2()
+print(s.searchRange(nums=[5, 7, 7, 8, 8, 10], target=8))
