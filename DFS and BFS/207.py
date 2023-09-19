@@ -1,4 +1,8 @@
-class Solution:
+from collections import defaultdict
+from typing import List
+
+
+class Solution1:
     def dfs(self, curr, course_dict, checked, path):
         # if check before than no cycle return False
         if checked[curr]:
@@ -48,5 +52,55 @@ class Solution:
         return True
 
 
-s = Solution()
+class Solution2:
+    def __init__(self):
+        self.path = None
+        self.visited = None
+        self.cycle = False
+
+    def dfs(self, course_dict, course):
+        # 出现环
+        if self.path[course]:
+            self.cycle = True
+            return
+
+        # 如果已经找到了环，也不用再遍历了
+        if self.cycle or self.visited[course]:
+            return
+
+        # 前序遍历代码位置，此时达到当前节点，处理当前节点逻辑。
+        self.visited[course] = True
+        self.path[course] = True
+
+        for nei in course_dict[course]:
+            self.dfs(course_dict, nei)
+
+        # 后序遍历代码位置，此时离开当前节点，体现回溯逻辑，回到上一个节点。
+        self.path[course] = False
+
+        return
+
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        """
+        Time O(m + n) 初始化dict用O(m)，dfs走遍所有course用O(n)v
+        Space O(m + n) 初始化dict用O(m)，dfs走遍所有course用O(n)，初始化visited和check用O(n)
+        逻辑同上，区别在于，设计全局参数cycle记录是否有环出现，不需要通过dfs返回值来判断最终结果。区别就是遍历整个图用返回值来判断逻辑，
+        还是遍历整个图用找到符合条件的路径来判断逻辑。
+        """
+        course_dict = defaultdict(list)
+        for p in prerequisites:
+            next_course, prev_course = p[0], p[1]
+            course_dict[prev_course].append(next_course)
+
+        self.path = [False] * numCourses
+        self.visited = [False] * numCourses
+
+        # 遍历图中的所有节点，这里需要手动加loop因为可能有完全不相链接的graph
+        for course in range(numCourses):
+            self.dfs(course_dict, course)
+
+        return self.cycle is False
+
+
+s = Solution2()
 print(s.canFinish(2, [[1, 0]]))
