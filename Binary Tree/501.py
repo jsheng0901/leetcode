@@ -8,42 +8,42 @@ class TreeNode:
         self.right = right
 
 
-def traversal(root, dict):
-    """
-    中序遍历并记录所有数值出现的频率
-    :param root:
-    :return:
-    """
-    if root is None:
-        return
-    traversal(root.left, dict)
-    if root.val in dict:        # 将二叉搜索树转换为dictionary存储频率
-        dict[root.val] += 1
-    else:
-        dict[root.val] = 0
-    traversal(root.right, dict)
+class Solution1:
+    def traversal(self, root, freq):
+        """
+        中序遍历并记录所有数值出现的频率
+        """
+        if root is None:
+            return
+        self.traversal(root.left, freq)
+        if root.val in freq:        # 将二叉搜索树转换为dictionary存储频率
+            freq[root.val] += 1
+        else:
+            freq[root.val] = 0
+        self.traversal(root.right, freq)
+
+    def findMode(self, root: TreeNode) -> [int]:
+        """
+        Time O(n)
+        Space O(n)
+        中序遍历，BTS一般饿哦们都采用中序遍历，因为中序遍历出来的结果刚好是从小到大的有序list，此处是dictionary记录频率
+        """
+        freq = {}
+        self.traversal(root, freq)
+
+        # 计算词典中最大的value
+
+        # max_value = max(dict.values())
+        # for k, v in dict.items():
+        #     if v == max_value:
+        #         results.append(k)
+
+        results = max(freq, key=freq.get)
+
+        return results
 
 
-def findMode(root: TreeNode) -> [int]:
-    """
-    中序遍历，BTS一般饿哦们都采用中序遍历，因为中序遍历出来的结果刚好是从小到大的有序list，此处是dictionary记录频率
-    """
-    dict = {}
-    traversal(root, dict)
-
-    # 计算词典中最大的value
-
-    # max_value = max(dict.values())
-    # for k, v in dict.items():
-    #     if v == max_value:
-    #         results.append(k)
-
-    results = max(dict, key=dict.get)
-
-    return results
-
-
-class Solution:
+class Solution2:
     def __init__(self):
         self.result = []
         self.pre = None
@@ -91,4 +91,5 @@ t2 = TreeNode(2)
 t3 = TreeNode(2)
 t1.right = t2
 t2.left = t3
-print(findMode(t1))
+s = Solution1()
+print(s.findMode(t1))
