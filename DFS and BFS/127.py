@@ -77,7 +77,8 @@ class Solution2:
         """
         Time O(n * len(word) * 26) 每个bfs临近node每个字母要找一遍26个字母
         Space O(n * len(word)) queue和mapping
-        BFS题型，注意这里一定要先把 word list 转化成 word set 不然后面check存不存在的时候会超时。用一个dictionary来记录每一步的单次的
+        BFS题型，注意这里一定要先把 word list 转化成 word set 不然后面check存不存在的时候会超时，原因是因为set是hash map，check存在的
+        时候是O(1)，然而List是数组，check存在的时候是O(n)，时间上大大提高了检查是否存在的速度。再用一个dictionary来记录每一步的单次的
         走到的step，也就是二叉树里面的每层的深度。
         """
         # 注意一定要转换成set，后续会快很多
