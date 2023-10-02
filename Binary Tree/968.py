@@ -68,3 +68,12 @@ class Solution:
         return self.result
 
 
+node1 = TreeNode()
+node2 = TreeNode()
+node3 = TreeNode()
+node4 = TreeNode()
+node1.left = node2
+node2.left = node3
+node2.right = node4
+s = Solution()
+print(s.minCameraCover(node1))
