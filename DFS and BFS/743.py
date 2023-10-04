@@ -1,5 +1,6 @@
 from collections import defaultdict
 from typing import Union
+import heapq
 
 
 class Solution:
@@ -55,5 +56,97 @@ class Solution:
             return answer
 
 
-s = Solution()
+class State:
+    # 图节点的 id
+    def __init__(self, id_: int, dist_from_start: int):
+        self.id = id_
+        # 从 start 节点到当前节点的距离
+        self.dist_from_start = dist_from_start
+
+    def __lt__(self, other):
+        """
+        比大小用，当object进入比大小的method的时候，比如sort或者heapq，此method会被自动叫，用来比较是否obj1 < obj2在我们定义下
+        """
+        return self.dist_from_start < other.dist_from_start
+
+
+class Solution2:
+    def dijkstra(self, start, graph):
+        """
+        Dijkstra 算法模版，输入一个起点 start，计算从 start 到其他节点的最短距离
+        """
+        # 定义：distTo[i] 的值就是起点 start 到达节点 i 的最短路径权重
+        dist_to = [float('inf')] * len(graph)
+        # base case，start 到 start 的最短距离就是 0
+        dist_to[start] = 0
+
+        # 优先级队列，dist_from_start 较小的排在前面
+        pq = [State(start, 0)]
+        # 从起点 start 开始进行 BFS
+        heapq.heapify(pq)
+
+        while pq:
+
+            # 当前节点状态
+            cur_state = heapq.heappop(pq)
+            cur_node_id = cur_state.id
+            cur_dist_from_start = cur_state.dist_from_start
+
+            # 如果需要找到起始点到某一个终点的最短路径和，在这里加一个判断就行了，其他代码不用改
+            # if cur_node_id == end:
+            #     return cur_dist_from_start
+
+            # 如果已经有一条更短的路径到达 cur_node 节点了，不需要继续BFS遍历此节点，直接结束进下一个节点
+            if cur_dist_from_start > dist_to[cur_node_id]:
+                continue
+
+            # 将 cur_node 的相邻节点装入队
+            for neighbor in graph[cur_node_id]:
+
+                # 下一个节点状态
+                next_node_id = neighbor[0]
+                # 看看从 cur_node 达到 next_node 的距离是否会更短
+                dist_to_next_node = dist_to[cur_node_id] + neighbor[1]
+
+                # 如果有更短的走法，更新备忘录，同时加入优先级队列
+                if dist_to_next_node < dist_to[next_node_id]:
+                    dist_to[next_node_id] = dist_to_next_node
+                    heapq.heappush(pq, State(next_node_id, dist_to_next_node))
+
+        return dist_to
+
+    def networkDelayTime(self, times: [[int]], n: int, k: int) -> int:
+        """
+        Time O(Elog(V)) E是边的个数，V是节点个数
+        Space O(n)
+        本质上是 Dijkstra 模板题，而 Dijkstra 本质上贪心原则下带备忘录的BFS算法。
+        不需要visited数组记录，因为算法里面每次都是储存最短的路径，两个点之间一定会有最短路径不会一直循环下去。
+        而且加权图中的 Dijkstra 算法和无权图中的普通 BFS 算法不同，在 Dijkstra 算法中，你第一次经过某个节点时的路径权重，
+        不见得就是最小的，所以对于同一个节点，我们可能会经过多次，而且每次的 dist_from_start 可能都不一样。所以不用visited数组记录path。
+        """
+
+        # 节点编号是从 1 开始的，所以要一个大小为 n + 1 的邻接表
+        graph = [[] for _ in range(n + 1)]
+        for edge in times:
+            source = edge[0]
+            target = edge[1]
+            time = edge[2]
+            # source -> List<(target, time)>
+            # 邻接表存储图结构，同时存储权重信息
+            graph[source].append([target, time])
+
+        # 启动 dijkstra 算法计算以节点 k 为起点到其他节点的最短路径
+        dist_to = self.dijkstra(k, graph)
+
+        # 找到最长的那一条最短路径
+        res = 0
+        for i in range(1, len(dist_to)):
+            if dist_to[i] == float('inf'):
+                # 有节点不可达，返回 -1
+                return -1
+            res = max(res, dist_to[i])
+        return res
+
+
+s = Solution2()
 print(s.networkDelayTime(times=[[2, 1, 1], [2, 3, 1], [3, 4, 1]], n=4, k=2))
