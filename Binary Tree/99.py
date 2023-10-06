@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -7,63 +10,56 @@ class TreeNode:
 
 
 class Solution:
-    def recoverTree(self, root: TreeNode) -> None:
-        """
-        Do not return anything, modify root in-place instead.
-        中序遍历，同时用x, y来记录需要swap的node，同时用prev指针来双指针同时中序遍历，找到x, y后，直接交换value即可
-        无需真正交换指针位置
-        """
+    def __init__(self):
+        self.x = None
+        self.y = None
+        self.prev = None
 
-        def find_two_swapped(root: TreeNode):
-            nonlocal x, y, pred
-            if root is None:
+    def traversal(self, node):
+        if node is None:
+            return
+
+        self.traversal(node.left)
+
+        # 如果存在prev指针并且，找到一个不符合的节点，
+        # 说明此时prev指针和当前节点就是需要swap的x，y节点，因为题目有说保证就两个需要交换的节点
+        if self.prev and node.val < self.prev.val:
+            # 第一个需要swap的节点
+            self.y = node
+
+            # 如果已经存在一个不合理的节点，可以直接返回
+            if self.x is None:
+                # 第二个需要swap的节点
+                # 这里需要继续判断是否后续还有不合理的节点，所有找到x之后不能直接return
+                # ex: 输入 [2, 3, 1] -> 需要转化成[2, 1, 3]，需要转换的是2号节点的左右子节点，而不是2号节点本身。
+                self.x = self.prev
+            else:
                 return
 
-            find_two_swapped(root.left)
-            if pred and root.val < pred.val:
-                y = root
-                # first swap occurence
-                if x is None:
-                    x = pred
-                    # second swap occurence
-                else:
-                    return
-            pred = root
-            find_two_swapped(root.right)
+        self.prev = node
 
-        x = y = pred = None
-        find_two_swapped(root)
-        x.val, y.val = y.val, x.val
+        self.traversal(node.right)
 
-#         def inorder(r: TreeNode) -> List[int]:
-#             return inorder(r.left) + [r.val] + inorder(r.right) if r else []
+        return
 
-#         def find_two_swapped(nums: List[int]) -> (int, int):
-#             n = len(nums)
-#             x = y = -1
-#             for i in range(n - 1):
-#                 if nums[i + 1] < nums[i]:
-#                     y = nums[i + 1]
-#                     # first swap occurence
-#                     if x == -1:
-#                         x = nums[i]
-#                     # second swap occurence
-#                     else:
-#                         break
-#             return x, y
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        """
+        Time O(n)
+        Space O(n)
+        中序遍历，同时用x, y来记录需要swap的node，同时用prev指针来双指针同时中序遍历，找到x, y后，直接交换value即可，无需真正交换指针位置
+        """
 
-#         def recover(r: TreeNode, count: int):
-#             if r:
-#                 if r.val == x or r.val == y:
-#                     r.val = y if r.val == x else x
-#                     count -= 1
-#                     if count == 0:
-#                         return
-#                 recover(r.left, count)
-#                 recover(r.right, count)
+        self.traversal(root)
 
-#         nums = inorder(root)
-#         x, y = find_two_swapped(nums)
-#         recover(root, 2)
+        self.x.val, self.y.val = self.y.val, self.x.val
+
+        return root
 
 
+node1 = TreeNode(1)
+node2 = TreeNode(2)
+node3 = TreeNode(3)
+node2.left = node3
+node2.right = node1
+s = Solution()
+print(s.recoverTree(node2))
