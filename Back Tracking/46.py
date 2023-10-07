@@ -5,13 +5,16 @@ class Solution:
 
     def backtracking(self, nums, used):
         """
-        与组合问题不一样的是，排列问题不用在每一层用start index, 因为排列问题，每次都要从头开始搜索，这个地方注意，排列比如从2开始的时候在递归层
-        时候我们是从1开始搜索而不是2的下一个元素开始搜索，所以不要每次跳一个index
+        Time O(n!)  所有排列组合的个数
+        Space O(log(n)) 递归树的大致深度
+        与组合问题不一样的是，排列问题不用在每一层用start index, 因为排列问题，每次都要从头开始搜索，这个地方注意，
+        排列比如从2开始的时候在递归层时候我们是从1开始搜索而不是2的下一个元素开始搜索，所以不要每次跳一个index
         例如元素1在[1,2]中已经使用过了，但是在[2,1]中还要再使用一次1
         """
         # 此时说明找到了一组
         if len(self.path) == len(nums):
-            self.result.append(self.path)
+            # self.result.append(self.path)
+            self.result.append(self.path[:])
             return
 
         for i in range(len(nums)):
@@ -21,7 +24,9 @@ class Solution:
             used[i] = True
             self.path.append(nums[i])
             self.backtracking(nums, used)
-            self.path = self.path[: len(self.path) - 1]     # 回溯
+            # self.path = self.path[: len(self.path) - 1]     # 回溯
+            # 因为Python list是mutable的，所以要么在这里拷贝，要么在最终加入结果的时候copy，推荐在加入结果的时候copy，这里直接pop out
+            self.path.pop()
             used[i] = False
 
     def permute(self, nums: [int]) -> [[int]]:

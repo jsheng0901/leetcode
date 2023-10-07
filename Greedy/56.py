@@ -1,9 +1,11 @@
 from typing import List
 
 
-class Solution:
+class Solution1:
     def merge(self, intervals: [[int]]) -> [[int]]:
         """
+        Time O(n + log(n))
+        Space: O(n)
         那么我按照左边界排序，排序之后局部最优：每次合并都取最大的右边界，这样就可以合并更多的区间了，整体最优：合并所有重叠的区间。
         """
         if len(intervals) == 0:
@@ -14,7 +16,7 @@ class Solution:
 
         flag = False  # 标记最后一个区间有没有合并
         result = []
-        i = 1  # python 要设置其实点，并用while loop，不然没办法更新i的值用for loop只会 1,2,3,4往前走
+        i = 1  # python 要设置起始点，并用while loop，不然没办法更新i的值，用for loop只会 1,2,3,4往前走
 
         while i < len(intervals):
             start = intervals[i - 1][0]  # 初始为i - 1 区间的左边界
@@ -39,8 +41,8 @@ class Solution:
 class Solution2:
     def merge(self, intervals: [[int]]) -> [[int]]:
         """
-        Time O(nlogn)
-        Space: O(1)
+        Time O(n + log(n))
+        Space: O(n)
         那么我按照左边界排序，排序之后局部最优：每次合并都取最大的右边界，这样就可以合并更多的区间了，整体最优：合并所有重叠的区间。
         """
         if len(intervals) == 0:
@@ -62,6 +64,12 @@ class Solution2:
 
 class Solution3:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        """
+        Time O(n + log(n))
+        Space: O(n)
+        逻辑同解法2
+        """
+
         intervals.sort(key=lambda x: x[0])
         #  写法思路和第二种一样，只是这里要一直维护一个最右端的指针
         right = intervals[0][1]
