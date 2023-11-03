@@ -30,11 +30,14 @@ class Solution:
 
     def verticalOrder(self, root: [TreeNode]) -> [[int]]:
         """
-        O(w * h log(h)) time w: width of tree, h: height of tree
-        binary tree的垂直遍历，构造一个dictionary存储，
+        Time O(w * h log(h))    w: width of tree, h: height of tree
+        Space O(log(h))
+        binary tree的垂直遍历，构造一个dictionary存储 {col : [(row, value)]}的关系
         每个column对应的node节点的row和value，最后sort by row, 越小的在越前面，在一次把每个column的对应的list的sorted后
-        的value加入result
+        的value加入result。这里同一行不用担心从左到右的顺序，因为前序遍历同一行，天然是从左到右添加节点。所以sort的时候要选第一个index，
+        也就是sort by row就可以了。
         """
+        # 空节点直接返回
         if root is None:
             return None
 
@@ -42,6 +45,12 @@ class Solution:
         result = []
         for i in range(self.min_col, self.max_col + 1):
             self.column_table[i].sort(key=lambda x: x[0])       # sort同一个column对应的node by row value
-            result.append([val for row, val in self.column_table[i]])
+            result.append([val for row, val in self.column_table[i]])   # 加入sort过后的结果
+
+        # 或者这样写
+        # res = []
+        # for col in range(self.min_col, self.max_col + 1):
+        #     val = [node[1] for node in sorted(self.column_table[col], key=lambda x: x[0])]
+        #     res.append(val)
 
         return result

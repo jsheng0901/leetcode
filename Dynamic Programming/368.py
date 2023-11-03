@@ -44,5 +44,50 @@ class Solution:
         return result[::-1]
 
 
-s = Solution()
+class Solution2:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        """
+        Time O(nlog(n) + n^2)
+        Space O(n^2)
+        先排序，排序后此题就变成了寻找一个最长递增子序列，且要求每个元素都能够整除前面那个元素。
+        定义：dp[i] 表示以 nums[i] 这个数结尾的最长符合要求的子序列本身。
+        用找最长递增子序列的方法，当找到符合整除的数的时候，判断一下前面的子序列的长度是否大于最大子序列，如果大于则更新长度和当前index。
+        如果此时index不是初始值，说明有更长的子序列出现，当前子序列扩充为前面的子序列 + 当前自己。
+        """
+        # 先排序
+        nums.sort()
+        # 构建dp，根据定义
+        dp = [[] for _ in range(len(nums))]
+        # 初始化dp[0]，包含第一个数字本身
+        dp[0].append(nums[0])
+
+        for i in range(1, len(nums)):
+            # 当前最长长度，和初始化index
+            max_sub_length = 0
+            index = -1
+            # 在 nums[0..i-1] 中寻找那个 nums[i] 能接到结尾的最长子序列
+            for j in range(i):
+                # 如果出现符合条件的数，更新最长长度和符合条件的时候的index
+                if nums[i] % nums[j] == 0 and len(dp[j]) > max_sub_length:
+                    max_sub_length = len(dp[j])
+                    index = j
+
+            # nums[0..i-1] 中最长的那个子序列，也就是上面找到的index位置，再加上 nums[i]，
+            # 就是 nums[0..i] 最长的子序列，存储子序列本身进当前dp[i]的位置
+            if index != -1:
+                dp[i].extend(dp[index])
+            # 无论有没有更长的子序列，当前dp[i]都至少包含自己作为最长子序列
+            dp[i].append(nums[i])
+
+        # 至少有1个长度，初始值
+        res = dp[0]
+        # 找到全局中最长的子序列本身，loop一遍dp数组找最长即可
+        for i in range(1, len(dp)):
+            if len(res) < len(dp[i]):
+                res = dp[i]
+        return res
+
+
+s = Solution2()
 print(s.largestDivisibleSubset(nums=[4, 8, 10, 240]))
+print(s.largestDivisibleSubset(nums=[1, 2, 4, 8]))
