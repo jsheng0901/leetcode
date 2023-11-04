@@ -54,3 +54,12 @@ class Solution:
         #     res.append(val)
 
         return result
+
+
+node1 = TreeNode(1)
+node2 = TreeNode(2)
+node3 = TreeNode(3)
+node1.left = node2
+node1.right = node3
+s = Solution()
+print(s.verticalOrder(node1))
