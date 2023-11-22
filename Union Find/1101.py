@@ -26,8 +26,10 @@ class UnionFind:
 class Solution:
     def earliestAcq(self, logs: List[List[int]], n: int) -> int:
         """
-        Time O(n + nlog(n))
-        Space O(n)
+        Time O(n + mlog(m) + mα(n))     n -> number of nodes(people)  m -> number of logs(edges)
+        Space O(n + m)
+        构建union find 需要 O(n)，sort logs需要 mlog(m)，union 每个log需要 mα(n)。
+        α(N) is the Inverse Ackermann Function，代表一次union或者find的times complex。
         并查集模版题目，这里需要注意的是，找最早的时间，需要先把logs sort一遍从小到大根据第一个元素timestamp。
         之后就一直union两个节点，直到整个graph成为一个整体，及count = 1。
         """
