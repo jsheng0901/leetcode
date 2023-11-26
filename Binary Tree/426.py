@@ -31,8 +31,10 @@ class Solution:
 
     def treeToDoublyList(self, root: 'Node') -> 'Node':
         """
+        Time O(n)
+        Space O(n)
         中序遍历BST， 用previous指针记录上一个节点，每次到下一个时候双向连接prev 和 current，
-        用first指针记录头结点，最后连接头结点和尾节点
+        用first指针记录头结点，最后连接头结点和尾节点，最后的尾节点就是我们中序遍历完tree后当前节点及 self.prev
         """
         if root:
             self.traversal(root)
