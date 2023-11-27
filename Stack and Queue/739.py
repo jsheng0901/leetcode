@@ -1,4 +1,7 @@
-class Solution:
+from typing import List
+
+
+class Solution1:
     def dailyTemperatures(self, temperatures: [int]) -> [int]:
         """
         Time O(n)
@@ -19,11 +22,37 @@ class Solution:
         result = [0] * len(temperatures)
 
         for i in range(len(temperatures)):
-            while len(stack) > 0 and temperatures[stack[-1]] < temperatures[i]:     # 对应情况3，注意判断栈不能为空
+            while len(stack) > 0 and temperatures[stack[-1]] < temperatures[i]:  # 对应情况3，注意判断栈不能为空
                 index = stack.pop()
                 result[index] = i - index
 
-            stack.append(i)     # 加入stack的是对应数的index，对应情况1，2
+            stack.append(i)  # 加入stack的是对应数的index，对应情况1，2
 
         return result
 
+
+class Solution2:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        """
+        Time O(n)
+        Space O(n)
+        同上原理，反向写单调栈，注意判断条件为当前进入温度大于等于栈顶温度，因为等于的情况下也需要弹出栈顶，我们找的是下一个更大的元素
+        """
+        stack = []
+        # 这里放元素索引，而不是元素
+        result = [0] * len(temperatures)
+        # 单调栈模板
+        for i in range(len(temperatures) - 1, -1, -1):
+            while len(stack) > 0 and temperatures[stack[-1]] <= temperatures[i]:
+                stack.pop()
+            # 得到索引间距
+            if stack:
+                result[i] = stack[-1] - i
+
+            stack.append(i)
+
+        return result
+
+
+s = Solution2()
+print(s.dailyTemperatures(temperatures=[73, 74, 75, 71, 69, 72, 76, 73]))
