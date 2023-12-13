@@ -20,7 +20,7 @@ class Solution:
                 res += char * s_map[char]
                 # 记得用完此字符后要删除此key value，加速后面的遍历，因为后面只需要遍历不在order里面的字符
                 s_map.pop(char)
-                
+
         # 不在order里面的字符加入结果
         for key, value in s_map.items():
             res += key * value
