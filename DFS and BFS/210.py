@@ -101,5 +101,64 @@ class Solution2:
             return self.result[::-1]
 
 
-s = Solution2()
+class Solution3:
+    def buildGraph(self, numCourses: int, prerequisites: List[List[int]]) -> List[List[int]]:
+        # 建图函数
+        # 图中共有 numCourses 个节点
+        graph = [[] for _ in range(numCourses)]
+        for edge in prerequisites:
+            from_course, to_course = edge[1], edge[0]
+            # 修完课程 from 才能修课程 to
+            # 在图中添加一条从 from 指向 to 的有向边
+            graph[from_course].append(to_course)
+        return graph
+
+    def bfs(self, graph, in_degree, num_course):
+        # 根据入度初始化队列中的节点，和环检测算法相同
+        q = []
+        for i in range(num_course):
+            if in_degree[i] == 0:
+                q.append(i)
+
+        # 记录拓扑排序结果
+        res = []
+        # 记录遍历节点的顺序（索引）
+        count = 0
+        # 开始执行 BFS 算法
+        while q:
+            cur = q.pop(0)
+            # 弹出节点的顺序即为拓扑排序结果
+            res.append(cur)
+            count += 1
+            for next_course in graph[cur]:
+                in_degree[next_course] -= 1
+                if in_degree[next_course] == 0:
+                    q.append(next_course)
+
+        if count != num_course:
+            # 存在环，拓扑排序不存在
+            return []
+
+        return res
+
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        """
+        Time O(m + n) 初始化dict用O(m)，bfs走遍所有course用O(n)
+        Space O(m + n) 初始化dict用O(m)，bfs走遍所有course用O(n)
+        同思路2，区别在于这里是用BFS的写法写拓扑排序。
+        """
+        # 建图，和环检测算法相同
+        graph = self.buildGraph(numCourses, prerequisites)
+        # 计算入度，和环检测算法相同
+        in_degree = [0] * numCourses
+        for edge in prerequisites:
+            from_course, to_course = edge[1], edge[0]
+            in_degree[to_course] += 1
+
+        res = self.bfs(graph, in_degree, numCourses)
+
+        return res
+
+
+s = Solution3()
 print(s.findOrder(numCourses=4, prerequisites=[[1, 0], [2, 0], [3, 1], [3, 2]]))
