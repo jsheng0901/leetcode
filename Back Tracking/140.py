@@ -6,7 +6,7 @@ class Solution1:
         self.result = []
         self.path = []
 
-    def backtrakcing(self, s, wordDict, start_index):
+    def backtracking(self, s, wordDict, start_index):
         if start_index == len(s):
             self.result.append(" ".join(self.path))
             return
@@ -15,7 +15,7 @@ class Solution1:
             sub = s[start_index: i + 1]
             if sub in wordDict:
                 self.path.append(sub)
-                self.backtrakcing(s, wordDict, i + 1)
+                self.backtracking(s, wordDict, i + 1)
                 self.path = self.path[:-1]
 
         return
@@ -26,7 +26,7 @@ class Solution1:
         Space O(n)
         回溯经典模板题，遍历所有切割情况，然后找到合规的加入result。
         """
-        self.backtrakcing(s, wordDict, 0)
+        self.backtracking(s, wordDict, 0)
 
         return self.result
 
@@ -109,7 +109,8 @@ class Solution3:
         Time O(n * len(result)) 每次子问题的长度是len(result) 可能更快也可能没有不带memo的情况。
         Space O(n)
         带备忘录的回溯，和solution2是一个逻辑，每次我们找到合理的path的时候不要理解结束同层的遍历，而是把合理的组合加入进同一层的数组。
-        并存入memo对应的index记录此分割点下所有合理的组合情况，之后继续遍历整个回溯树。
+        并存入memo对应的index记录此分割点下所有合理的组合情况，之后继续遍历整个回溯树。和第一种方法不一样的地方在于带备忘录的回溯其实就是dp，
+        这里必须用返回值来减少多余的遍历。因为要判断状态在备忘录里面。
         """
 
         word_set = set(wordDict)
