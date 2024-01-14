@@ -3,7 +3,7 @@ class Solution:
         """
         Time O(n^2)
         Space O(log(n)) depend on sorting
-        双指针
+        先排序然后双指针遍历左右两端
         """
         result = []
         # 找出a + b + c = 0
@@ -30,11 +30,12 @@ class Solution:
                     while right > left and nums[left] == nums[left + 1]:
                         left += 1
 
-                    # 找到答案时，双指针同时收缩
+                    # 找到答案时，双指针同时收缩，因为跳出上面的while loop的时候还是在需要跳过的重复index
                     right -= 1
                     left += 1
 
         return result
 
 
-print(threeSum([1, 2, 3, 4, -1, -2]))
+s = Solution()
+print(s.threeSum([1, 2, 3, 4, -1, -2]))
