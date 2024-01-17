@@ -57,6 +57,38 @@ class SparseVector2:
         return res
 
 
+class SparseVector3:
+    def __init__(self, nums: List[int]):
+        self.pairs = []
+        for index, value in enumerate(nums):
+            if value != 0:
+                self.pairs.append([index, value])
+
+    def dotProduct(self, vec: 'SparseVector') -> int:
+        """
+        Time O(n)
+        Space O(l)
+        构建非0的index和value的pair，双指针遍历整个list pair，如果index相等的情况下加入result，index不相等移动小的那个。
+        当array非常sparse的时候，其实最简单的直接遍历所有元素是最快最省memory的，因为不需要额外空间存储list或者hash map。
+        另外一种做法是，当另一个array很sparse的时候，我们可以在长的array里面用 binary search 去找到index。时间复杂度可以降到
+        O(l1 + l1 * log(l2))
+        """
+        result = 0
+        p, q = 0, 0
+
+        while p < len(self.pairs) and q < len(vec.pairs):
+            if self.pairs[p][0] == vec.pairs[q][0]:
+                result += self.pairs[p][1] * vec.pairs[q][1]
+                p += 1
+                q += 1
+            elif self.pairs[p][0] < vec.pairs[q][0]:
+                p += 1
+            else:
+                q += 1
+
+        return result
+
+
 v1 = SparseVector2(nums=[1, 0, 0, 2, 3])
 v2 = SparseVector2(nums=[0, 3, 0, 4, 0])
 print(v1.dotProduct(v2))
