@@ -94,6 +94,105 @@ class Solution2:
         return step
 
 
-s = Solution2()
+class Solution3:
+    def bfs(self, beginWord, endWord, word_set):
+
+        queue = [(beginWord, 1)]
+        visited = set()
+        visited.add(beginWord)
+
+        while queue:
+            word, step = queue.pop(0)
+            # 这里可以在当前节点判断是否是结束词，也可以在下面下一个节点的时候判断
+            # if word == endWord:
+            #     return step
+            for i in range(len(word)):
+                word_list = list(word)
+                for j in range(26):
+                    word_list[i] = chr(ord('a') + j)
+                    new_word = "".join(word_list)
+                    # 在这里判断就是可以少一步判断下一个词是否在候选词里面和是否被访问过，不过这些判断都是set，也就是都是O(1)的操作
+                    if new_word == endWord:
+                        return step + 1
+                    if new_word in word_set and new_word not in visited:
+                        queue.append((new_word, step + 1))
+                        visited.add(new_word)
+
+        return 0
+
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        """
+        Time O(n * len(word) * 26) 每个bfs临近node每个字母要找一遍26个字母
+        Space O(n * len(word)) queue和visited
+        同上的思路，只是我们不用mapping去check状态，用visited集合去check是否访问过，同时queue存储当前节点走到的时候step的距离。
+        本质上就是判断node是否有走回头路，并且node要存储当前的状态。
+        """
+        word_set = set(wordList)
+        if len(word_set) == 0 or endWord not in wordList:
+            return 0
+
+        step = self.bfs(beginWord, endWord, word_set)
+
+        return step
+
+
+class Solution4:
+    def visited_node(self, queue, visited, others_visited, word_set):
+        word = queue.pop(0)
+        # if word in others_visited:
+        #     return visited[word] + others_visited[word]
+        for i in range(len(word)):
+            word_list = list(word)
+            for j in range(26):
+                word_list[i] = chr(ord('a') + j)
+                new_word = "".join(word_list)
+                if new_word in others_visited:
+                    return visited[word] + others_visited[new_word]
+                if new_word in word_set and new_word not in visited:
+                    queue.append(new_word)
+                    visited[new_word] = visited[word] + 1
+
+        return None
+
+    def bfs(self, beginWord, endWord, word_set):
+
+        begin_queue = [beginWord]
+        end_queue = [endWord]
+        begin_visited = {beginWord: 1}
+        end_visited = {endWord: 1}
+        min_step = float('inf')
+
+        while begin_queue and end_queue:
+            if len(begin_queue) <= len(end_queue):
+                ans = self.visited_node(begin_queue, begin_visited, end_visited, word_set)
+            else:
+                ans = self.visited_node(end_queue, end_visited, begin_visited, word_set)
+
+            if ans:
+                min_step = min(min_step, ans)
+
+        return 0 if min_step == float('inf') else min_step
+
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        """
+        Time O(n * len(word) * 26) 每个bfs临近node每个字母要找一遍26个字母
+        Space O(n * len(word)) queue和visited
+        这里其实时间上会更快一点，因为是双向BFS，本质上就是两个BFS一个接着一个走，如果遇到了对方走过的节点，说明找到了一条path，记录距离，
+        统计最短的距离，这里本人觉得需要遍历所有可能的path才能找到最短距离，因为当遇到另个BFS访问过的节点时候，不确定是否就是最短距离的节点，
+        因为可能另一个BFS多走了好几步，当遇到交集的时候并不是另一个BFS的最短距离状态。
+        """
+        word_set = set(wordList)
+        if len(word_set) == 0 or endWord not in wordList:
+            return 0
+
+        step = self.bfs(beginWord, endWord, word_set)
+
+        return step
+
+
+s = Solution4()
 print(s.ladderLength(beginWord="hit", endWord="cog", wordList=["hot", "dot", "dog", "lot", "log", "cog"]))
 print(s.ladderLength(beginWord="a", endWord="c", wordList=["a", "b", "c"]))
+print(s.ladderLength(beginWord="hbo", endWord="qbx",
+                     wordList=["abo", "hco", "hbw", "ado", "abq", "hcd", "hcj", "hww", "qbq", "qby", "qbz", "qbx",
+                               "qbw"]))
