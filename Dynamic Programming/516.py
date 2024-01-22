@@ -30,3 +30,7 @@ class Solution:
 
         # 这里的返回值需要注意的不是[-1][-1]，因为dp的含义是 i --> j 的回文长度，所以取左右两端，及i = 0，j = len(s) - 1 或者数组 -1
         return dp[0][-1]
+
+
+s = Solution()
+print(s.longestPalindromeSubseq(s="bbbab"))
