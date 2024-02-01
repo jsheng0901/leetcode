@@ -9,7 +9,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class Solution1:
     def __init__(self):
         self.column_table = defaultdict(list)
         self.min_col = 0
@@ -56,10 +56,54 @@ class Solution:
         return result
 
 
+class Solution2:
+    def __init__(self):
+        self.column_table = defaultdict(list)
+        self.min_col = 0
+        self.max_col = 0
+
+    def traversal(self, node):
+        # 当前节点对应的column
+        queue = [(node, 0)]
+        while queue:
+            node, column = queue.pop(0)
+            self.column_table[column].append(node.val)              # 加入每个节点的row和value进对应的column
+            self.min_col = min(self.min_col, column)                # 更新最小column
+            self.max_col = max(self.max_col, column)                # 更新最大column
+            # 空节点不入列队
+            if node.left:
+                # 左节点
+                queue.append((node.left, column - 1))
+            if node.right:
+                # 右节点
+                queue.append((node.right, column + 1))
+
+        return
+
+    def verticalOrder(self, root: [TreeNode]) -> [[int]]:
+        """
+        Time O(n)
+        Space O(n)
+        binary tree的垂直遍历，构造一个dictionary存储 {col : [value]}的关系
+        整体思路和解法1一样，只是这里我们用BFS达到层序遍历，因为层序遍历的时候row是有序的遍历的，一定是从上到下加入列队，所以此时，
+        column对应的list天然是已经按照row的顺序排序好的。所以直接返回所有keys即可。
+        """
+        # 空节点直接返回
+        if root is None:
+            return None
+
+        self.traversal(root)
+        result = []
+        for i in range(self.min_col, self.max_col + 1):
+            result.append([val for val in self.column_table[i]])
+
+        return result
+
+
 node1 = TreeNode(1)
 node2 = TreeNode(2)
 node3 = TreeNode(3)
 node1.left = node2
 node1.right = node3
-s = Solution()
+s = Solution2()
 print(s.verticalOrder(node1))
