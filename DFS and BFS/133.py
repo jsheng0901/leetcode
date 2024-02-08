@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class Node:
-    def __init__(self, val = 0, neighbors = None):
+    def __init__(self, val=0, neighbors=None):
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
@@ -41,3 +41,13 @@ class Solution:
         visited = {}
 
         return self.dfs(node, visited)
+
+
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node1.neighbors = [node2, node3]
+node2.neighbors = [node1, node3]
+node3.neighbors = [node2, node3]
+s = Solution()
+print(s.cloneGraph(node1))

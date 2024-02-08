@@ -1,4 +1,4 @@
-class Solution:
+class Solution1:
     def minInsertions(self, s: str) -> int:
         """
         Time O(n)
@@ -49,5 +49,39 @@ class Solution:
         return res + 2 * len(stack)
 
 
-s = Solution()
+class Solution2:
+    def minInsertions(self, s: str) -> int:
+        """
+        Time O(n)
+        Space O(1)
+        不用栈，用一个变量need记录对应右括号的需求个数。res记录插入次数。详细见注释。
+        """
+        # 记录需要多少次插入
+        res = 0
+        # 记录需右括号的需求量
+        need = 0
+        for i in range(len(s)):
+            # 当遇到左括号的时候
+            if s[i] == '(':
+                # 一个左括号对应两个右括号
+                need += 2
+                # 当遇到左括号时，若对右括号的需求量为奇数，需要插入 1 个右括号。因为一个左括号需要两个右括号，右括号的需求必须是偶数
+                if need % 2 == 1:
+                    # 插入一个右括号
+                    res += 1
+                    # 对右括号的需求减一
+                    need -= 1
+            elif s[i] == ')':
+                need -= 1
+                # 当 need == -1 时，意味着我们遇到一个多余的右括号，显然需要插入一个左括号
+                if need == -1:
+                    # 需要插入一个左括号
+                    res += 1
+                    # 由于一个左括号需要两个右括号，所以对右括号的需求量变为 1，因已经遇到了一个，只需要再加一个即可
+                    need = 1
+        # 这里最终返回两个值的和，因为res记录的是插入的次数，need记录的是对右括号的需求，如果最后不为0说明还有多余的
+        return res + need
+
+
+s = Solution2()
 print(s.minInsertions(s="))())("))

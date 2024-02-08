@@ -36,6 +36,7 @@ class Solution1:
         """
         Time O(NKlogNK) N is number of account, k is max length of account, DFS需要走完所有account及node，sort需要logNK
         Space O(NK) build adjacency list需要NK，seen也需要NK，DFS系统stack也需要NK
+        核心思想是，能连起来的email都是来自于同一个人的，也就是每个graph里面的sub-graph component属于同一个人
         """
         email_to_name = {}
         graph = defaultdict(set)
@@ -84,6 +85,12 @@ class UnionFind:
 
 class Solution2:
     def accountsMerge(self, accounts: [[str]]) -> [[str]]:
+        """
+        Time O(NK⋅logNK+NK⋅α(N))  NK⋅logNK -> sorted + NK⋅α(N) -> UF build
+        Space O(NK)
+        并查集思路，把所有email属于同一个account下面的index连起来，并且重复的email对应的不同的account index连起来。也就是连起来的
+        index一定属于同一个人。之后我们再把所有同一个index下面的email合并起来。最后对所有index逐一加进result。
+        """
 
         n = len(accounts)
 
