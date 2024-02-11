@@ -160,7 +160,48 @@ class Solution3:
         return count
 
 
-s = Solution3()
+class Solution4:
+    def __init__(self):
+        self.dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
+    def bfs(self, grid, i, j):
+        m = len(grid)
+        n = len(grid[0])
+        # 用列队表示，这样处理的永远是列对头的元素，也就是先处理四个方向
+        queue = [(i, j)]
+        # 这里直接标记在原始grid上面，不用visited数组单独记录
+        grid[i][j] = "0"
+        while queue:
+            top_x, top_y = queue.pop(0)
+            for d in self.dirs:
+                next_x = top_x + d[0]
+                next_y = top_y + d[1]
+                if next_x < 0 or next_x >= m or next_y < 0 or next_y >= n:
+                    continue
+                if grid[next_x][next_y] == '1':
+                    queue.append((next_x, next_y))
+                    grid[next_x][next_y] = "0"  # 同理，记录访问过
+
+    def numIslands(self, grid: [[str]]) -> int:
+        """
+        Time O(m * n) 同DFS
+        Space O(min(m, n)) 极端case，特别窄的grid，queue里面最多放置最短边的长度的元素，长的那边会逐步逼近而不是一次性全部放进去。
+        BFS写法，每次处理一个点的四个方向的点。但是不用专门开一个visited数组记录是否访问过，在原来的grid上面直接改。并且BFS可以更省空间。
+        """
+        m = len(grid)
+        n = len(grid[0])
+        count = 0
+
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    count += 1
+                    self.bfs(grid, i, j)
+
+        return count
+
+
+s = Solution4()
 print(s.numIslands(grid=[
     ["1", "1", "1", "1", "0"],
     ["1", "1", "0", "1", "0"],
