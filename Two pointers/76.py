@@ -96,3 +96,49 @@ class Solution:
 
         return result
 
+
+class Solution2:
+    def minWindow(self, s: str, t: str) -> str:
+        """
+        Time O(n)
+        Space O(n)
+        同样的逻辑，区别在于我们更新最小substring的时候，直接记录当前的最短string，不需要用一个index记录起始位置。
+        """
+        window = defaultdict(int)
+        need = defaultdict(int)
+
+        for c in t:
+            need[c] += 1
+
+        right = 0
+        left = 0
+        length = float('inf')
+        valid = 0
+        res = ""
+
+        while right < len(s):
+            c = s[right]
+            right += 1
+            if c in need:
+                window[c] += 1
+                if window[c] == need[c]:
+                    valid += 1
+
+            while valid == len(need):
+                # 区别在这里
+                if right - left < length:
+                    # 直接记录当前最短substring
+                    res = s[left: right]
+                    length = right - left
+                d = s[left]
+                left += 1
+                if d in need:
+                    if window[d] == need[d]:
+                        valid -= 1
+                    window[d] -= 1
+
+        return res
+
+
+s = Solution2()
+print(s.minWindow(s="ADOBECODEBANC", t="ABC"))
