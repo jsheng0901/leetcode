@@ -22,7 +22,7 @@ class Solution1:
 
     def wordBreak(self, s: str, wordDict: [str]) -> [str]:
         """
-        Time O(2^n)
+        Time O(2^n * n^2) 总共 2^n此切割方式，每次调用递归函数需要loop一遍所有位置并且切割substring，需要n^2
         Space O(n)
         回溯经典模板题，遍历所有切割情况，然后找到合规的加入result。
         """
@@ -32,6 +32,48 @@ class Solution1:
 
 
 class Solution2:
+
+    def __init__(self):
+        # 记录结果
+        self.res = []
+        # 记录回溯算法的路径
+        self.track = []
+        self.wordDict = []
+
+    # 回溯算法框架
+    def backtrack(self, s: str, i: int) -> None:
+        # base case
+        if i == len(s):
+            # 找到一个合法组合拼出整个 s，转化成字符串
+            self.res.append(' '.join(self.track))
+            return
+
+        # 回溯算法框架
+        for word in self.wordDict:
+            # 看看哪个单词能够匹配 s[i..] 的前缀
+            length = len(word)
+            if i + length <= len(s) and s[i:i + length] == word:
+                # 找到一个单词匹配 s[i..i+len)
+                # 做选择
+                self.track.append(word)
+                # 进入回溯树的下一层，继续匹配 s[i+len..]
+                self.backtrack(s, i + length)
+                # 撤销选择
+                self.track.pop()
+
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        """
+        Time O(2^n * m * n) 总共 2^n此切割方式，每次调用递归函数需要loop一遍所有word dictionary (m) 并且切割substring (n)
+        Space O(n)
+        回溯经典模板题，相比较思路一，这里遍历word dictionary先，而不是遍历切割点
+        """
+        self.wordDict = wordDict
+        # 执行回溯算法穷举所有可能的组合
+        self.backtrack(s, 0)
+        return self.res
+
+
+class Solution3:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
 
         word_set = set(wordDict)
@@ -71,7 +113,7 @@ class Solution2:
         return res
 
 
-class Solution3:
+class Solution4:
     def backtracking(self, s, word_set, start_index, memo):
         res = []
         if start_index == len(s):
