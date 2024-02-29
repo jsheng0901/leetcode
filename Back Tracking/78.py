@@ -21,6 +21,10 @@ class Solution:
             self.path = self.path[: len(self.path) - 1]     # 回溯
 
     def subsets(self, nums: [int]) -> [[int]]:
+        """
+        Time O(n × 2^n)  总共2^n个子集，每次需要O(n)的操作时间
+        Space O(n)
+        """
         self.backtracking(nums, 0)
 
         return self.result
