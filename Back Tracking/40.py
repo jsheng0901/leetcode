@@ -35,6 +35,11 @@ class Solution:
                 self.path = self.path[:len(self.path) - 1]  # 回溯
 
     def combinationSum2(self, candidates: [int], target: int) -> [[int]]:
+        """
+        Time O(n * log(n) + 2^n)
+        Space O(n)
+        假设所有的子集情况都会遍历到，因为我们不知道组合的大小，可以是所有元素也可以是一个元素，不过实际情况应该远小于所有子集。加上减枝操作。
+        """
         used = [False] * len(candidates)
         # 首先把给candidates排序，让其相同的元素都挨在一起。
         candidates.sort()
