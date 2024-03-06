@@ -52,7 +52,75 @@ class Solution1(object):
         return self.visited[head]
 
 
-class Solution2(object):
+class Solution2:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        """
+        Time O(n)
+        Space O(n)
+        分步骤写两次遍历，第一次存储新的节点和老节点的关系，第二次连接上所有关系。
+        对于数据结构复制，甭管他怎么变，最简单的方式：一个哈希表 + 两次遍历。
+        第一次遍历专门克隆节点，借助哈希表把原始节点和克隆节点的映射存储起来；第二次专门组装节点，照着原数据结构的样子，把克隆节点的指针组装起来。
+        如果克隆带随机指针的二叉树，或者克隆图，都是一样的，只不过是遍历的方式从 for 循环迭代遍历变成 traverse 递归函数遍历罢了。
+        """
+        originToClone = {}
+        # 第一次遍历，先把所有节点克隆出来
+        p = head
+        while p:
+            if p not in originToClone:
+                originToClone[p] = Node(p.val)
+            p = p.next
+        # 第二次遍历，把克隆节点的结构连接好
+        p = head
+        while p:
+            if p.next:
+                originToClone[p].next = originToClone[p.next]
+            if p.random:
+                originToClone[p].random = originToClone[p.random]
+            p = p.next
+        # 返回克隆之后的头结点
+        return originToClone.get(head)
+
+
+class Solution3:
+    def __init__(self):
+        self.originToClone = None
+        self.visited = None
+
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        """
+        Time O(n)
+        Space O(n)
+        分步骤写两次遍历，第一次存储新的节点和老节点的关系，第二次连接上所有关系。
+        用递归的方式进行遍历
+        """
+        self.visited = set()
+        self.originToClone = {}
+        self.traverse(head)
+        return self.originToClone.get(head)
+
+    # DFS 图遍历框架
+    def traverse(self, node):
+        if not node:
+            return
+        if node in self.visited:
+            return
+        # 前序位置，标记为已访问
+        self.visited.add(node)
+        # 前序位置，克隆节点
+        if node not in self.originToClone:
+            self.originToClone[node] = Node(node.val)
+        cloneNode = self.originToClone[node]
+
+        # 递归遍历邻居节点，并构建克隆图
+        # 递归之后，邻居节点一定存在 originToClone 中
+        self.traverse(node.next)
+        cloneNode.next = self.originToClone.get(node.next)
+
+        self.traverse(node.random)
+        cloneNode.random = self.originToClone.get(node.random)
+
+
+class Solution4(object):
     def copyRandomList(self, head):
         """
         Time O(n)
