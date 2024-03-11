@@ -72,5 +72,41 @@ class Solution2:
         return res
 
 
-s = Solution2()
-print(s.minRemoveToMakeValid(s="lee(t(c)o)de)"))
+class Solution3:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        """
+        Time O(n)
+        Space O(n)
+
+        """
+        # Pass 1: Remove all invalid ")"
+        first_pass_chars = []
+        balance = 0
+        open_seen = 0
+        for c in s:
+            if c == "(":
+                balance += 1
+                open_seen += 1
+            if c == ")":
+                if balance == 0:
+                    continue
+                balance -= 1
+            first_pass_chars.append(c)
+
+        # Pass 2: Remove the rightmost "("
+        result = []
+        # 记录有多少个左括号需要被保留下来
+        open_to_keep = open_seen - balance
+        for c in first_pass_chars:
+            if c == "(":
+                open_to_keep -= 1
+                # 如果需要保留的左括号已经全部用完为负数，也就是说多出来的不需要保留，直接跳过
+                if open_to_keep < 0:
+                    continue
+            result.append(c)
+
+        return "".join(result)
+
+
+s = Solution3()
+print(s.minRemoveToMakeValid(s="lee(((t(c)o)de)"))

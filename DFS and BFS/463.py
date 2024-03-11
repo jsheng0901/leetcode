@@ -54,5 +54,32 @@ class Solution:
         return self.perimeter
 
 
+class Solution2:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        """
+        Time O(mn)
+        Space O(1)
+        直接两个loop遍历所有岛屿，如果上面和左边是岛屿，则 -2，因为两个边overlap。只需要check两个方向因为，每个岛屿是从上方和左边的方向
+        双loop遍历的，并不需要check四个方向，这样会造成重复删除。
+        """
+        rows = len(grid)
+        cols = len(grid[0])
+
+        result = 0
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    result += 4
+                    # 上面是岛屿
+                    if r > 0 and grid[r - 1][c] == 1:
+                        result -= 2
+                    # 左边是岛屿
+                    if c > 0 and grid[r][c - 1] == 1:
+                        result -= 2
+
+        return result
+
+
 s = Solution()
 print(s.islandPerimeter(grid=[[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]))
