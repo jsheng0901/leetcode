@@ -108,5 +108,34 @@ class Solution3:
         return "".join(result)
 
 
+class Solution4:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        """
+        Time O(n)
+        Space O(1)
+        如果输出不算空间的话，我们只需要噪输出结果上进行删除不合理的括号，从左往右删除不合理的右括号，从后往前删除不合理的左括号。
+        """
+        left = 0
+        s = list(s)
+        # 删除右括号
+        for i, c in enumerate(s):
+            if c == '(':
+                left += 1
+            elif c == ')':
+                if not left:
+                    s[i] = ""
+                else:
+                    left -= 1
+        # 删除左括号
+        for i in range(len(s) - 1, -1, -1):
+            if not left:
+                break
+            if s[i] == '(':
+                s[i] = ""
+                left -= 1
+
+        return "".join(s)
+
+
 s = Solution3()
 print(s.minRemoveToMakeValid(s="lee(((t(c)o)de)"))
