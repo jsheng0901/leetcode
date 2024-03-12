@@ -23,6 +23,7 @@ class Solution2:
         Space O(1)
         不用栈，一直维护一个当前从右到左的最大值即可，除去输出空间，没有额外空间使用。
         从右向左遍历，如果有当前一个大于目前的最高build，则加入result，最后reverse result， 但需要reverse。
+        也可以不需要reverse，构建数组的时候从前向后叠加，而不是用append
         """
         cur_max = float('-inf')
 
@@ -31,14 +32,16 @@ class Solution2:
         for i in range(len(heights) - 1, -1, -1):
             # 如果当前高度大于最大高度，说明可以看到海，加入结果
             if heights[i] > cur_max:
-                result.append(i)
+                # result.append(i)
+                # 反向叠加，不需要reverse之后
+                result = [i] + result
             # 更新当前最高高度
             cur_max = max(cur_max, heights[i])
 
-        result.reverse()
+        # result.reverse()
 
         return result
 
 
-s = Solution()
+s = Solution2()
 print(s.findBuildings(heights=[4, 2, 3, 1]))
