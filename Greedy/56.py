@@ -41,7 +41,7 @@ class Solution1:
 class Solution2:
     def merge(self, intervals: [[int]]) -> [[int]]:
         """
-        Time O(n + log(n))
+        Time O(n * log(n) + n)
         Space: O(n)
         那么我按照左边界排序，排序之后局部最优：每次合并都取最大的右边界，这样就可以合并更多的区间了，整体最优：合并所有重叠的区间。
         """
@@ -65,7 +65,7 @@ class Solution2:
 class Solution3:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         """
-        Time O(n + log(n))
+        Time O(n * log(n) + n)
         Space: O(n)
         逻辑同解法2
         """
