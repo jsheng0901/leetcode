@@ -60,7 +60,7 @@ class Solution1:
 class Solution2:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         """
-        Time O(nlog(k))
+        Time O(n * log(k))
         Space O(k)
         n次操作，每次删除和添加都log(k)，小顶堆的操作和堆内元素个数有关系。采用小顶堆，维持k个元素在堆内，最后堆顶元素及第k个最大的元素。
         """
@@ -105,7 +105,7 @@ class Solution3:
 
     def findKthLargest(self, nums, k):
         """
-        Time O(n)
+        Time O(n) average log(n) 次递归，每次数组大小变成 log(n)，---> O(n)
         Space O(n)
         同第一种方法，快排序的逻辑，随机选择一个pivot，小于它的放左边，大于它的放右边，如果k小于左边的长度，说明在左边，
         大于左边+中间，说明在右边，继续递归直到找到pivot只有一个数字的时候在数组里面，此数字就是我们要找的第k个最小的数字，
