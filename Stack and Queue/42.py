@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Solution:
     def trap1(self, height: [int]) -> int:
         """
@@ -63,6 +66,37 @@ class Solution:
                 stack.append(i)
 
         return result
+
+
+class Solution3:
+    def trap(self, height: List[int]) -> int:
+        """
+        Time O(n)
+        Space O(1)
+        双指针写法，这里一边遍历一遍计算。trap的区域只需要考虑当前的最底高度和当前高度的差，也就是 min(l_max, r_max)
+        至于l_max和r_max是不是当前i的左右最高并不重要。详细见注释。
+        参考 https://labuladong.online/algo/frequency-interview/trapping-rain-water/
+        """
+        left = 0
+        right = len(height) - 1
+        l_max = 0
+        r_max = 0
+        res = 0
+        while left < right:
+            # 左边最大的高度 height[0..left]
+            l_max = max(l_max, height[left])
+            # 右边最大的高度 height[right..end]
+            r_max = max(r_max, height[right])
+            # 当前左边已经比右边更小了，也就是高度选择和l_max有关系，至于r_max是不是i右边的最高高度不重要
+            if l_max < r_max:
+                # 当前高度差，这里底永远是1，所以不用 h * w
+                res += l_max - height[left]
+                left += 1
+            else:
+                res += r_max - height[right]
+                right -= 1
+
+        return res
 
 
 s = Solution()
