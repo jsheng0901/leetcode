@@ -29,5 +29,35 @@ class Solution:
         return result
 
 
+class Solution2:
+    def get_palindrome(self, s, left, right, num):
+        # 如果符合要求则进循环
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            # 进循环表示有一种新地回文子串出现，叠加当前个数
+            num += 1
+            # 两边扩散
+            left -= 1
+            right += 1
+
+        return num
+
+    def countSubstrings(self, s: str) -> int:
+        """
+        Time O(n^2)
+        Space O(1)
+        双指针写法，和5一样的思路，从中间向两边扩散，每个中间点有奇数和偶数两种情况，每次扩散成功一次，说明多一种回文子串
+        """
+        res = 0
+        for i in range(len(s)):
+            # 偶数情况
+            even = self.get_palindrome(s, i, i + 1, 0)
+            # 奇数情况
+            odd = self.get_palindrome(s, i, i, 0)
+            # 叠加所有回文子串个数
+            res += even + odd
+
+        return res
+
+
 s = Solution()
 print(s.countSubstrings(s="aaa"))
