@@ -58,7 +58,6 @@ class Solution2:
         left = 0
         right = 0
         p1 = 0
-        p2 = 0
         length = float('inf')
         valid = 0
         res = ""
