@@ -4,7 +4,7 @@ from heapq import heapify, heappop, heappush
 class Solution:
     def mostBooked(self, n, meetings):
         """
-        Time O(nlog(n))
+        Time O(M * logM + M * logN) M -> meeting个数  N -> PQ里面的元素个数
         Space O(n)
         用两个min heap记录，一个记录当前available的room，一个记录当前正在进行的meeting的end时间和用的哪个room，
         我们每次check新的meeting的时候先看看正在开的meeting是不是有开完的，如果有开完的找到room编号最小的那个，
@@ -22,6 +22,8 @@ class Solution:
         sorted_meetings = sorted(meetings, key=lambda x: x[0])
         for start_time, end_time in sorted_meetings:
             # Check if there are any available rooms at the start time of the meeting
+            # 一定要先check当前是否有meeting已经完成了在新加入得meeting前，因为我们是选择完成meeting里面房间号最小的，而不是最先完成
+            # 的房间，加入新的meeting的时候，所以需要弹出所有已经完成的meeting，并把房间号从新加入回available room
             while occupied_rooms and occupied_rooms[0][0] <= start_time:
                 # Room becomes available, add it back to the available_rooms heap
                 end, room = heappop(occupied_rooms)

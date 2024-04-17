@@ -118,23 +118,56 @@ class Solution2:
             # 实际左candle，和实际右candle
             left = right_index[query[0]]
             right = left_index[query[1]]
-            # 特殊情况，一遍没有合理的candle，则说明没有合理的plates，记录 0
+            # 情况1，一遍没有合理的candle，则说明没有合理的plates，记录 0
             if left == -1 or right == -1:
                 res.append(0)
-            # 特殊情况，query在我们左右candle区间里面，说明此时query里面没有任何candle，记录 0，
-            # 这里需要判断两种情况，因为有可能left > right
-            elif (left < query[0] and right > query[1]) or (right < query[0] and left > query[1]):
+            # 情况2，query在我们左右candle区间里面，说明此时query里面没有任何candle，记录 0，
+            # 这里只会有一种情况，当在candle里面的时候，及left > right
+            elif right < query[0] and left > query[1]:
                 res.append(0)
-            # 计算真正query的区间情况，利用前缀和
+            # 情况3，计算真正query的区间情况，利用前缀和，这里只有 right > left，因为如果 left > right，则说明一定是上面第二种情况
             else:
-                if left > right:
-                    res.append(pre_sum[left] - pre_sum[right])
-                else:
-                    res.append(pre_sum[right] - pre_sum[left])
+                res.append(pre_sum[right] - pre_sum[left])
 
         return res
 
 
-s = Solution2()
+class Solution3:
+    def left_bound(self, arr, target):
+        # 查找大于等于target值的最小的左边界，标准写法
+        left, right = 0, len(arr) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if arr[mid] < target:
+                left = mid + 1
+            elif arr[mid] == target:
+                right = mid - 1
+            elif arr[mid] > target:
+                right = mid - 1
+
+        return left
+
+    def platesBetweenCandles(self, s: str, queries: List[List[int]]) -> List[int]:
+        """
+        Time O(q * log(candle))
+        Space O(candle)
+        二分法查找每个query的最左边的candle和最右边的candle，计算这个candle区间里面有多少个plate。详细见注释。
+        在一个递增区间内，找到一个大于或者等于target值的数值，一定可以用二分法。
+        """
+        # 拿到所有candle的index，因为要查找最左边界
+        candles = [i for i, c in enumerate(s) if c == "|"]
+
+        ans = []
+        for a, b in queries:
+            # 找到最左边界和最右边界的index，这里注意，我们查找的是二分法的最左边界，所以candle的右边界需要减1
+            l, r = self.left_bound(candles, a), self.left_bound(candles, b + 1) - 1
+            # 找到index后，candles[r] - candles[l] - 1 找到两个candle中间如果没有任何别的candle的话有多少个plate
+            # r - l - 1 计算出两个candle中间有多少个其它的candle，也就是不是plate的个数，相减计算出总共的plate个数
+            ans.append((candles[r] - candles[l] - 1) - (r - l - 1) if l < r else 0)
+
+        return ans
+
+
+s = Solution3()
 print(s.platesBetweenCandles(s="**|**|***|", queries=[[2, 5], [5, 9]]))
 print(s.platesBetweenCandles(s="***|**|*****|**||**|*", queries=[[1, 17], [4, 5], [14, 17], [5, 11], [15, 16]]))

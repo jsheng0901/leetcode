@@ -37,6 +37,46 @@ class Solution:
         return "" if len(res) != len(s) else res
 
 
+class Solution2:
+    def reorganizeString(self, s: str) -> str:
+        """
+        Time O(n)
+        Space O(k) --> 1
+        把整体分成奇数位置和偶数位置，先把频率出现最高的按照 0, 2, 4 .. 的顺序放进偶数位置，此时只要都能放进去，之后所有的字符随意放置都不会
+        出现相邻的两个字符是重复的字符。
+        """
+        # 统计出现的频率，并找到最大的出现出现频率的字符和次数
+        freq = Counter(s)
+        max_count, char = 0, ""
+        for k, v in freq.items():
+            if v > max_count:
+                max_count = v
+                char = k
+
+        # 当最大的出现次数大于一半以上的时候，一定不能重组string，直接返回空string
+        if max_count > (len(s) + 1) // 2:
+            return ""
+
+        res = [''] * len(s)
+        index = 0
+        # 开始放置字符，把出现频率最高的字符放进偶数位置
+        while freq[char] != 0:
+            res[index] = char
+            index += 2
+            freq[char] -= 1
+        # 把剩下的字符随意放置到偶数或者奇数的位置，必须隔着放
+        for k, v in freq.items():
+            while v > 0:
+                # 如果偶数用完了，变成奇数的起始点
+                if index >= len(s):
+                    index = 1
+                res[index] = k
+                index += 2
+                v -= 1
+
+        return ''.join(res)
+
+
 s = Solution()
 print(s.reorganizeString(s="aab"))
 print(s.reorganizeString(s="aaabb"))
