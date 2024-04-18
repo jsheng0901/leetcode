@@ -24,16 +24,16 @@ class Solution:
             for j in range(i + 1, len(all_y)):
                 y2 = all_y[j]
                 # 找到组合里面x轴的交集
-                interesction_x = list(y_to_x[y1].intersection(y_to_x[y2]))
+                intersection_x = list(y_to_x[y1].intersection(y_to_x[y2]))
                 # 少于2个都不可能组合成长方形
-                if len(interesction_x) < 2:
+                if len(intersection_x) < 2:
                     continue
                 else:
                     # 遍历所有x的组合
-                    for k in range(len(interesction_x)):
-                        x1 = interesction_x[k]
-                        for l in range(k + 1, len(interesction_x)):
-                            x2 = interesction_x[l]
+                    for k in range(len(intersection_x)):
+                        x1 = intersection_x[k]
+                        for l in range(k + 1, len(intersection_x)):
+                            x2 = intersection_x[l]
                             # 计算面积
                             area = abs(y1 - y2) * abs(x1 - x2)
                             # 更新最小面积
