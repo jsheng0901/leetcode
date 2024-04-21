@@ -56,5 +56,83 @@ class Solution:
         return semester if count == n else -1
 
 
-s = Solution()
+class Solution2:
+    def __init__(self):
+        self.path = []
+        self.cycle = False
+        self.visited_length = {}
+
+    def dfs(self, node, graph):
+        # 如果之前访问过，并记录过最长路径，直接返回路径结果
+        if node in self.visited_length:
+            return self.visited_length[node]
+
+        # 如果在单次路径中访问过此节点，说明有环
+        if self.path[node]:
+            # 全局遍历设置
+            self.cycle = True
+            # 有环直接返回 -1
+            return -1
+
+        # 如果有环直接返回 -1
+        if self.cycle:
+            return -1
+
+        # 当前节点记录
+        self.path[node] = True
+        # 当前节点路径最大值
+        max_length = 1
+        for nei in graph[node]:
+            # 子节点返回的访问路径最大值
+            sub_length = self.dfs(nei, graph)
+            # 如果是 -1 说明之前有环，最大长度为 -1
+            if sub_length == -1:
+                max_length = -1
+            # 如果不是 -1，继续更新最大长度
+            else:
+                # 当前节点 + 子节点返回长度 或者之前的最大长度
+                max_length = max(sub_length + 1, max_length)
+
+        # 记录备忘录，当前节点对应的最大长度
+        self.visited_length[node] = max_length
+        # 回溯，离开当前节点的时候记得撤销访问过，因为还有可能从别的路径访问此节点
+        self.path[node] = False
+        # 返回最长长度
+        return max_length
+
+    def minimumSemesters(self, n: int, relations: List[List[int]]) -> int:
+        """
+        Time O(n + e) n -> nodes  e -> edges
+        Space O(n + e)
+        DFS的写法，速度上理论上和BFS一样，不过因为这里的DFS有采用备忘录的写法，实际情况应该更快。DFS需要备忘录，所以必须使用后续遍历的方式。
+        用返回值来判断是否需要继续遍历。同时和传统的判断拓扑排序是否有环不一样的地方在于，一般需要visited数组来记录访问节点，并且不需要重复
+        访问节点，但是这里因为需要判断最长的长度，同一个节点可能有多个方式的path到达，所以这里并不需要visited数组来记录是否重复访问。相反
+        需要访问所有路径，也就是即使重复的节点也需要不同的路径走一遍。详细进注释
+        """
+        # 构建graph
+        graph = defaultdict(list)
+        for relation in relations:
+            from_course, to_course = relation[0], relation[1]
+            graph[from_course].append(to_course)
+
+        # 记录单次路径访问的节点，防止有环
+        self.path = [False] * (n + 1)
+        # 记录最终的学期
+        semester = 1
+        # 遍历所有节点
+        for i in range(1, n + 1):
+            # 如果有环直接返回 -1，不需要继续遍历
+            if self.cycle:
+                return -1
+            # 得到当前节点作为起点的最长路径
+            max_length = self.dfs(i, graph)
+            # 记录全局最长路径也就是学期
+            semester = max(max_length, semester)
+
+        return semester
+
+
+s = Solution2()
 print(s.minimumSemesters(n=3, relations=[[1, 3], [2, 3]]))
+s = Solution2()
+print(s.minimumSemesters(n=3, relations=[[1, 2], [2, 3], [3, 1]]))
