@@ -42,3 +42,12 @@ class Solution:
         self.traversal(root)
 
         return self.res
+
+
+node1 = TreeNode(3)
+node2 = TreeNode(5)
+node3 = TreeNode(1)
+node1.left = node2
+node1.right = node3
+s = Solution()
+print(s.averageOfSubtree(node1))
