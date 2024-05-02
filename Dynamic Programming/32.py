@@ -104,7 +104,109 @@ class Solution2:
         return 0 if result == float('-inf') else result
 
 
-s = Solution1()
+class Solution3:
+    def longestValidParentheses(self, s: str) -> int:
+        """
+        Time O(n)
+        Space O(n)
+        栈的思路，栈内记录所有不合理的符合的index，最后遍历一次整个string，如果遇到合理的就叠加长度，并且更新最大值，如果遇到index是
+        不合理的符合，则直接初始化当前合理长度。
+        """
+        max_length = 0
+        stack = []
+        # 记录所有不合理的index
+        for idx, val in enumerate(s):
+            if val == "(":
+                stack.append(idx)
+            else:
+                if stack and s[stack[-1]] == "(":
+                    stack.pop()
+                else:
+                    stack.append(idx)
+
+        # 转换成set更快查找
+        stack_set = set(stack)
+        cur_length = 0
+        for idx, val in enumerate(s):
+            # 如果是不合理的index，则直接初始化，并且跳过
+            if idx in stack_set:
+                cur_length = 0
+                continue
+            # 如果是合理的，更新长度，这里只 +1，因为合理的一定是成对出现的，下一个符合会继续 +1
+            cur_length += 1
+            max_length = max(max_length, cur_length)
+
+        return max_length
+
+
+class Solution4:
+    def longestValidParentheses(self, s: str) -> int:
+        """
+        Time O(n)
+        Space O(n)
+        同思路3，但是只遍历一次并且计算合理长度。这里每次遇到闭括号，先弹出栈顶，如果一直是合理的string，此时弹出后栈顶一定有开括号元素，
+        更新长度然后，如果没有元素了，说明开括号用完了，是不合理的string，记录进栈。
+        """
+        max_ans = 0
+        stack = [-1]
+        for i in range(len(s)):
+            if s[i] == "(":
+                stack.append(i)
+            else:
+                # 弹出当前元素
+                stack.pop()
+                # 如果没有元素了，说明此时闭括号没有配对，不合理string，入栈
+                if not stack:
+                    stack.append(i)
+                # 如果有元素了，说明此时闭括号有配对，更新长度
+                else:
+                    max_ans = max(max_ans, i - stack[-1])
+
+        return max_ans
+
+
+class Solution5:
+    def longestValidParentheses(self, s: str) -> int:
+        """
+        Time O(n)
+        Space O(1)
+        两次遍历，每次记录左右括号的个数，如果相等的时候说明是合理的string，更新长度。从左向右，如果右大于左说明不合理，直接初始化指针。
+        反过来从右向左遍历，如果做大于右是不合理的情况，初始化指针。这里为什么要两次遍历因为。ex "(()()" 这种情况从左向右的时候，是不会出现
+        指针相等的情况，因为左括号永远大于右括号，此时长度为0，但是反过来遍历就可以找到最大长度4。
+        """
+        left, right, max_length = 0, 0, 0
+        # 从左向右
+        for i in range(len(s)):
+            # 记录左括号
+            if s[i] == "(":
+                left += 1
+            # 记录右括号
+            else:
+                right += 1
+            # 相等说明找到合理的string，更新
+            if left == right:
+                max_length = max(max_length, 2 * right)
+            # 不合理的string，右大于左，初始化指针
+            elif right > left:
+                left = right = 0
+
+        # 同上，只是反过来遍历
+        left = right = 0
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] == "(":
+                left += 1
+            else:
+                right += 1
+            if left == right:
+                max_length = max(max_length, 2 * left)
+            elif left > right:
+                left = right = 0
+
+        return max_length
+
+
+s = Solution5()
+print(s.longestValidParentheses(s=")()())"))
 print(s.longestValidParentheses(s="())"))
 print(s.longestValidParentheses(s=")()())()()("))
 print(s.longestValidParentheses(s="("))
