@@ -9,7 +9,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution:
+class Solution1:
     def __init__(self):
         self.res = 0
 
@@ -67,6 +67,48 @@ class Solution:
         return self.res
 
 
+class Solution2:
+    def __init__(self):
+        self.res = 0
+
+    def traversal(self, node, path):
+        if node is None:
+            return
+
+        if node.left is None and node.right is None:
+            # compute occurrences of each digit
+            # in the corresponding register
+            # 这里 << 是 left shift，比如节点是3，那就是1的二进制表达式往左边移动3位，这样3这个地方就是二进制表达的1了
+            # ^ 代表两个数只有二进制每个位置都是一样的才能是0，不然就是1，也就是同一个节点出现的value只能出现偶数次，奇数次的话对应的
+            # 二进制位置就是1，最后再check一遍是不是整个二进制表达式里面最多只有一个1存在，是的话说明符合条件，不是的话跳过此path。
+            path = path ^ (1 << node.val)
+            # check if at most one digit has an odd frequency
+            # 二进制 -1 会把原本的二进制表达式中最后一个1变成0然后1后面的都变成1，& 在二进制里面会对每一位执行同时是1才可以结果是1的逻辑
+            # 也就是说原先是1的位置变成了0，后面的所有变成了1，&后原先是1的位置开始因为全都相反了，则都会变成0，此时如果二进制全都是0了
+            # 也就是说明当前数字10进制表达是0
+            if path & (path - 1) == 0:
+                self.res += 1
+            return
+
+        path = path ^ (1 << node.val)
+        self.traversal(node.left, path)
+        self.traversal(node.right, path)
+
+        return
+
+    def pseudoPalindromicPaths(self, root: Optional[TreeNode]) -> int:
+        """
+        Time O(n)
+        Space O(n)
+        思路和第一个一模一样，只是这里用位运算的方式记录每个value出现的频率，同时check是不是最多一个1在出现的频率里面。
+        这样check合理的path的时候可以把时间压缩到绝对O(1)，虽然check9位的list理论上也O(1)，但是实际中还是要遍历整个数组，只是数组小。
+        当题目需要压缩到O(1)的空间或者只有1-9个数的时候，可以考虑位运算的思路。
+        """
+        self.traversal(root, 0)
+
+        return self.res
+
+
 node1 = TreeNode(1)
 node2 = TreeNode(1)
 node3 = TreeNode(1)
@@ -78,5 +120,5 @@ node6.right = node1
 node4.left = node5
 node4.right = node2
 node1.right = node3
-s = Solution()
+s = Solution2()
 print(s.pseudoPalindromicPaths(node6))
