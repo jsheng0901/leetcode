@@ -1,6 +1,8 @@
 from typing import List
 
 
+# 所有位运算的Python基本操作可以参考以下link
+# https://realpython.com/python-bitwise-operators/
 class Solution1:
     def singleNumber(self, nums: [int]) -> int:
         """
