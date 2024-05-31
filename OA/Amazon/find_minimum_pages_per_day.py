@@ -66,10 +66,11 @@ class Solution:
             else:
                 left = mid + 1
 
-        return left
+        return -1 if left > max(pages) else left
 
 
 s = Solution()
 print(s.findMinimumPagesPerDay(pages=[5, 3, 4], days=4))
 print(s.findMinimumPagesPerDay(pages=[2, 3, 4, 5], days=5))
 print(s.findMinimumPagesPerDay(pages=[2, 3, 4], days=4))
+print(s.findMinimumPagesPerDay(pages=[5, 3, 1, 5, 3, 2, ], days=2))
