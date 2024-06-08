@@ -4,9 +4,7 @@ class Solution1:
         self.count = 0
 
     def dfs(self, grid, i, j):
-        """
-        不用写递归判断，因为进入递归的数据都是在loop里面判断过的
-        """
+        # 不用写递归判断，因为进入递归的数据都是在loop里面判断过的
         m = len(grid)
         n = len(grid[0])
 
@@ -29,7 +27,7 @@ class Solution1:
         Time O(m * n) 多次loop完整个grid
         Space O(1) 没有额外空间，直接在grid上面改
         DFS写法，本题要求找到不靠边的陆地面积，那么我们只要从周边找到陆地然后通过dfs或者bfs将周边靠陆地且相邻的陆地都变成海洋，
-        然后再去重新遍历地图的时候，统计此时还剩下的陆地就可以了。
+        然后再去重新遍历地图的时候，统计此时还剩下的陆地就可以了。思路同1254.
         """
         m = len(grid)
         n = len(grid[0])
