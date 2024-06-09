@@ -37,7 +37,7 @@ class Solution2:
         Space O(n)
         单调栈的思路，因为我们需要每个subarray的第一个元素是整个array最小的元素，所以我们可以找每个元素下一个小于它的元素的index。对于没有
         下一个小于它的元素的index应该是整个array的长度，有多少个subarray在下一个小于它的元素和这个元素之间，
-        其实很简单应该是下一个的index - 当前index。详细见注释。
+        其实很简单应该是下一个的index - 当前index，这里因为下一个更小的index不考虑在subarray内，所以直接相减，不然个数要 + 1。详细见注释。
         """
         n = len(nums)
         # 构建下一个更小的数组，初始值是array的长度，如果没有下一个更小的数的时候
