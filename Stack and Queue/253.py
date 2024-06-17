@@ -43,6 +43,28 @@ class Solution2:
         """
         Time O(n * log(n))
         Space O(n)
+        同思路1，换一种写法。把第一个元素的添加顺序加入loop里面写
+        """
+        pq = []
+        intervals_sorted = sorted(intervals, key=lambda x: x[0])
+
+        for i in range(len(intervals_sorted)):
+            start = intervals_sorted[i][0]
+            end = intervals_sorted[i][1]
+            # 如果列队存在并且开始时间大于最早结束时间，则解放一个room
+            if pq and start >= pq[0]:
+                heapq.heappop(pq)
+
+            heapq.heappush(pq, end)
+
+        return len(pq)
+
+
+class Solution3:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        """
+        Time O(n * log(n))
+        Space O(n)
         本质上应该更快，因为只需要sort之后loop一次所有meeting。思路是，当起始时间小于结束时间时候，说明我们需要一个新的房间，当相反的时候，
         我们可以解放一个房间，同时结束时间指针向前走一步。
         """
