@@ -50,7 +50,7 @@ class Solution3:
 
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         """
-        Time O(n * k *log(k))
+        Time O(n * k or n * k * log(k))
         Space O(n * k)
         同思路1和2，只是把两个方法换了一个方式写
         """
