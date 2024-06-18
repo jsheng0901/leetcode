@@ -1,4 +1,7 @@
 # Definition for singly-linked list.
+from typing import Optional
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -7,10 +10,6 @@ class ListNode:
 
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
-        """
-        O(n) time
-        0(1) space
-        """
         current = head  # start from firs head
         previous = None  # previous head node which is None at first
         while current:  # loop over linked node, when next is None then out
@@ -22,6 +21,11 @@ class Solution:
         return previous
 
     def reverseBetween(self, head: ListNode, left: int, right: int) -> ListNode:
+        """
+        Time O(n)
+        Space 0(1)
+        找到区间的起点和终点，切断起点前一个节点和起点的关系，反正新的起点节点，并后续连接起来。详细见注释。
+        """
         tmp = ListNode()    # 构建dummy header
         tmp.next = head     # dummy header指向原始header
         cur = tmp           # 找到当前current header
@@ -40,6 +44,43 @@ class Solution:
         new_head.next = right_node                    # 原来的new header就是现在reverse之后的last node，连接原先的right后面一个
 
         return tmp.next     # return 原来的header
+
+
+class Solution2:
+    def __init__(self):
+        self.successor = None  # 后驱节点
+
+    def reverse_n(self, head: ListNode, n: int) -> ListNode:
+        # 同206题写法，只是这里是前n个节点而不是所有节点
+        # 反转以 head 为起点的 n 个节点，返回新的头结点
+        if n == 1:
+            # 记录第 n + 1 个节点
+            self.successor = head.next
+            return head
+
+        # 以 head.next 为起点，需要反转前 n - 1 个节点
+        last = self.reverse_n(head.next, n - 1)
+
+        head.next.next = head
+        # 让反转之后的 head 节点和后面的节点连起来
+        head.next = self.successor
+
+        return last
+
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        """
+        Time O(n)
+        Space O(n)
+        递归的思路写，本质上是把反转前n个链表和反转一个区间内的链表组合起来一起写。详细见注释
+        """
+        # base case
+        if left == 1:
+            return self.reverse_n(head, right)
+
+        # 前进到反转的起点触发 base case
+        head.next = self.reverseBetween(head.next, left - 1, right - 1)
+
+        return head
 
 
 node1 = ListNode(1)
