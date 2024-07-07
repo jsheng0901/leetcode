@@ -1,6 +1,8 @@
 class Solution:
     def maxProduct(self, nums: [int]) -> int:
         """
+        Time O(n)
+        Space O(1)
         当前状态有两种，一个是最大值，一个是最小值，最大值用来记录，最小值用来记录是否之后会乘一个负数变成最大值
         每次状态由三种情况产生，最大值*当前数字，最小值*当前数字，当前数字
         """
@@ -21,13 +23,8 @@ class Solution:
             result = max(max_so_far, result)
 
         return result
-#         dp = [[0, 0] for _ in range(len(nums))]
-#         dp[0][0] = nums[0]
-#         dp[0][1] = nums[0]
-#         result = nums[0]
-#         for i in range(1, len(nums)):
-#             dp[i][0] = max(dp[i-1][0]*nums[i], dp[i-1][1]*nums[i], nums[i])
-#             dp[i][1] = min(dp[i-1][0]*nums[i], dp[i-1][1]*nums[i], nums[i])
-#             result = max(result, dp[i][0])
 
-#         return result
+
+s = Solution()
+print(s.maxProduct(nums=[2, 3, -2, 4]))
+print(s.maxProduct(nums=[-2, 0, -1]))
