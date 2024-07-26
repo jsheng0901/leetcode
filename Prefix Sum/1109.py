@@ -45,6 +45,8 @@ class Difference:
 class Solution:
     def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
         """
+        Time O(n)
+        Space O(n)
         典型的差分数组的应用，bookings里面存在频繁的对最终数组区间的增删value。
         """
         # nums 初始化为全 0

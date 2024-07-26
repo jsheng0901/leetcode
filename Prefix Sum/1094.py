@@ -42,9 +42,11 @@ class Difference:
         return result
 
 
-class Solution:
+class Solution1:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
         """
+        Time O(n)
+        Space O(n)
         典型的差分数组的应用，trips里面存放的就是对区间[i, j]增加的value
         """
         # 构造数组，直接取最大长度构造
@@ -64,3 +66,35 @@ class Solution:
                 return False
 
         return True
+
+
+class Solution2:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        """
+        Time O(n * log(n))
+        Space O(n)
+        我们需要的只是每一站的时候乘客的变化，如果超过容量则说明不行。
+        """
+        timestamp = []
+        # 记录每一站的时候乘客的人数变化
+        for trip in trips:
+            timestamp.append([trip[1], trip[0]])
+            timestamp.append([trip[2], -trip[0]])
+
+        # 从第一站开始
+        timestamp.sort()
+
+        # 记录总共人数变化
+        used_capacity = 0
+        for time, passenger_change in timestamp:
+            used_capacity += passenger_change
+            # 如果超过总容量，说明不行
+            if used_capacity > capacity:
+                return False
+
+        return True
+
+
+s = Solution2()
+print(s.carPooling(trips=[[2, 1, 5], [3, 3, 7]], capacity=4))
+print(s.carPooling(trips=[[2, 1, 5], [3, 3, 7]], capacity=5))
