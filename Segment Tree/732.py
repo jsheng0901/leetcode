@@ -21,15 +21,15 @@ class SegmentTree:
 
     # 单点更新，将 nums[i] 更改为 val
     def update_point(self, i, val):
-        self.__update_point(i, val, self.tree)
+        self._update_point(i, val, self.tree)
 
     # 区间更新，将区间为 [q_left, q_right] 上的元素值修改为 val
     def update_interval(self, q_left, q_right, val):
-        self.__update_interval(q_left, q_right, val, self.tree)
+        self._update_interval(q_left, q_right, val, self.tree)
 
     # 区间查询，查询区间为 [q_left, q_right] 的区间值
     def query_interval(self, q_left, q_right):
-        return self.__query_interval(q_left, q_right, self.tree)
+        return self._query_interval(q_left, q_right, self.tree)
 
     # 获取 nums 数组接口：返回 nums 数组
     def get_nums(self, length):
@@ -41,19 +41,23 @@ class SegmentTree:
     # 以下为内部实现方法
 
     # 单点更新，将 nums[i] 更改为 val。node 节点的区间为 [node.left, node.right]
-    def __update_point(self, i, val, node):
+    def _update_point(self, i, val, node):
         if node.left == node.right:
             node.val = val  # 叶子节点，节点值修改为 val
             return
 
         if i <= node.mid:  # 在左子树中更新节点值
-            self.__update_point(i, val, node.left_node)
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
+            self._update_point(i, val, node.left_node)
         else:  # 在右子树中更新节点值
-            self.__update_point(i, val, node.right_node)
-        self.__push_up(node)  # 向上更新节点的区间值
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
+            self._update_point(i, val, node.right_node)
+        self._push_up(node)  # 向上更新节点的区间值
 
     # 区间更新
-    def __update_interval(self, q_left, q_right, val, node):
+    def _update_interval(self, q_left, q_right, val, node):
         if node.left >= q_left and node.right <= q_right:  # 节点所在区间被 [q_left, q_right] 所覆盖
             if node.lazy_tag is not None:
                 node.lazy_tag += val  # 将当前节点的延迟标记增加 val
@@ -64,39 +68,47 @@ class SegmentTree:
         if node.right < q_left or node.left > q_right:  # 节点所在区间与 [q_left, q_right] 无关
             return 0
 
-        self.__push_down(node)  # 向下更新节点所在区间的左右子节点的值和懒惰标记
+        self._push_down(node)  # 向下更新节点所在区间的左右子节点的值和懒惰标记
 
         if q_left <= node.mid:  # 在左子树中更新区间值
-            self.__update_interval(q_left, q_right, val, node.left_node)
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
+            self._update_interval(q_left, q_right, val, node.left_node)
         if q_right > node.mid:  # 在右子树中更新区间值
-            self.__update_interval(q_left, q_right, val, node.right_node)
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
+            self._update_interval(q_left, q_right, val, node.right_node)
 
-        self.__push_up(node)
+        self._push_up(node)
 
     # 区间查询，在线段树的 [left, right] 区间范围中搜索区间为 [q_left, q_right] 的区间值
-    def __query_interval(self, q_left, q_right, node):
+    def _query_interval(self, q_left, q_right, node):
         if node.left >= q_left and node.right <= q_right:  # 节点所在区间被 [q_left, q_right] 所覆盖
             return node.val  # 直接返回节点值
         if node.right < q_left or node.left > q_right:  # 节点所在区间与 [q_left, q_right] 无关
             return 0
 
-        self.__push_down(node)  # 向下更新节点所在区间的左右子节点的值和懒惰标记
+        self._push_down(node)  # 向下更新节点所在区间的左右子节点的值和懒惰标记
 
         res_left = 0  # 左子树查询结果
         res_right = 0  # 右子树查询结果
         if q_left <= node.mid:  # 在左子树中查询
-            res_left = self.__query_interval(q_left, q_right, node.left_node)
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
+            res_left = self._query_interval(q_left, q_right, node.left_node)
         if q_right > node.mid:  # 在右子树中查询
-            res_right = self.__query_interval(q_left, q_right, node.right_node)
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
+            res_right = self._query_interval(q_left, q_right, node.right_node)
         return self.function(res_left, res_right)  # 返回左右子树元素值的聚合计算结果
 
     # 向上更新 node 节点区间值，节点的区间值等于该节点左右子节点元素值的聚合计算结果
-    def __push_up(self, node):
+    def _push_up(self, node):
         if node.left_node and node.right_node:
             node.val = self.function(node.left_node.val, node.right_node.val)
 
     # 向下更新 node 节点所在区间的左右子节点的值和懒惰标记
-    def __push_down(self, node):
+    def _push_down(self, node):
         if node.left_node is None:
             node.left_node = SegTreeNode(node.left, node.mid)
         if node.right_node is None:

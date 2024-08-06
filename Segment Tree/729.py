@@ -119,8 +119,12 @@ class SegmentTree:
             return
 
         if i <= node.mid:  # 在左子树中更新节点值
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
             self._update_point(i, val, node.left_node)
         else:  # 在右子树中更新节点值
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
             self._update_point(i, val, node.right_node)
         self._push_up(node)  # 向上更新节点的区间值
 
@@ -139,8 +143,12 @@ class SegmentTree:
         self._push_down(node)  # 向下更新节点所在区间的左右子节点的值和懒惰标记
 
         if q_left <= node.mid:  # 在左子树中更新区间值
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
             self._update_interval(q_left, q_right, val, node.left_node)
         if q_right > node.mid:  # 在右子树中更新区间值
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
             self._update_interval(q_left, q_right, val, node.right_node)
 
         self._push_up(node)
@@ -157,8 +165,12 @@ class SegmentTree:
         res_left = 0  # 左子树查询结果
         res_right = 0  # 右子树查询结果
         if q_left <= node.mid:  # 在左子树中查询
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
             res_left = self._query_interval(q_left, q_right, node.left_node)
         if q_right > node.mid:  # 在右子树中查询
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
             res_right = self._query_interval(q_left, q_right, node.right_node)
         return self.function(res_left, res_right)  # 返回左右子树元素值的聚合计算结果
 
