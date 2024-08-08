@@ -104,7 +104,111 @@ class Solution2:
         return self.pairs
 
 
-s1 = Solution2()
+class SegTreeNode:
+    def __init__(self, left=-1, right=-1, val=0, lazy_tag=None, left_node=None, right_node=None):
+        self.left = left  # 区间左边界
+        self.right = right  # 区间右边界
+        self.mid = left + (right - left) // 2  # 区间中间点
+        self.left_node = left_node  # 区间左节点
+        self.right_node = right_node  # 区间右节点
+        self.val = val  # 节点值（区间值）
+        self.lazy_tag = lazy_tag  # 区间问题的延迟更新标记
+
+
+# 动态开点线段树类，不带延迟更新标记的版本
+class SegmentTree:
+    # 初始化线段树接口
+    def __init__(self, function):
+        self.tree = SegTreeNode(-2 ** 31, 2 ** 31 - 1)
+        self.function = function  # function 是一个函数，左右区间的聚合方法
+
+    # 单点更新，将 nums[i] 更改为 val
+    def update_point(self, i, val):
+        self._update_point(i, val, self.tree)
+
+    # 区间查询，查询区间为 [q_left, q_right] 的区间值
+    def query_interval(self, q_left, q_right):
+        return self._query_interval(q_left, q_right, self.tree)
+
+    # 以下为内部实现方法
+    # 单点更新，将 nums[i] 更改为 val。node 节点的区间为 [node.left, node.right]
+    def _update_point(self, i, val, node):
+        if node.left == node.right:
+            node.val += val  # 叶子节点，节点值修改为 val
+            return
+
+        if i <= node.mid:  # 在左子树中更新节点值
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
+            self._update_point(i, val, node.left_node)
+        else:  # 在右子树中更新节点值
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
+            self._update_point(i, val, node.right_node)
+        self._push_up(node)  # 向上更新节点的区间值
+
+    # 区间查询，在线段树的 [left, right] 区间范围中搜索区间为 [q_left, q_right] 的区间值
+    def _query_interval(self, q_left, q_right, node):
+        if node.left >= q_left and node.right <= q_right:  # 节点所在区间被 [q_left, q_right] 所覆盖
+            return node.val  # 直接返回节点值
+        if node.right < q_left or node.left > q_right:  # 节点所在区间与 [q_left, q_right] 无关
+            return 0
+
+        res_left = 0  # 左子树查询结果
+        res_right = 0  # 右子树查询结果
+        if q_left <= node.mid:  # 在左子树中查询
+            if node.left_node is None:
+                node.left_node = SegTreeNode(node.left, node.mid)
+            res_left = self._query_interval(q_left, q_right, node.left_node)
+        if q_right > node.mid:  # 在右子树中查询
+            if node.right_node is None:
+                node.right_node = SegTreeNode(node.mid + 1, node.right)
+            res_right = self._query_interval(q_left, q_right, node.right_node)
+        return self.function(res_left, res_right)  # 返回左右子树元素值的聚合计算结果
+
+    # 向上更新 node 节点区间值，节点的区间值等于该节点左右子节点元素值的聚合计算结果
+    def _push_up(self, node):
+        # 注意这里没有延迟标记的写法
+        left_node = node.left_node
+        right_node = node.right_node
+        # 动态开点，遇到不存在的节点，直接赋值0
+        left_node_val = left_node.val if left_node else 0
+        right_node_val = right_node.val if right_node else 0
+
+        node.val = self.function(left_node_val, right_node_val)
+
+
+class Solution3:
+    def reversePairs(self, nums: List[int]) -> int:
+        """
+        Time O(n * log(c))  c -> 线段树根节点维护的区间长度
+        Space O(n * log(c))
+        此题可以转化成线段树的思路，此题和327，315一模一样的思路，属于区间计数问题。
+        我们可以从前往后遍历，把当前数字当成我们遍历到j的时候，我们需要找到遍历过的i，一定要符合
+        2 * nums[j] < nums[i]，i < j 这个不等式，也就是说我们需要找到有多少个遍历过的数大于两倍的当前数，
+        对此我们可以利用线段数RQS的方式，对一个区间快速的提取结果，需要注意的是这里的数可能很大，所以我们采用动态开点线段树，
+        离散化存储，不需要开一个会超memory的连续数组。详细见注释。
+        """
+        upper_bound = 2 ** 32 - 1
+        lower_bound = -2 ** 31
+        # 初始化线段数，这里写的是动态开点线段树不带延迟标记的版本，区间的长度为题目给的最大范围
+        segment_tree = SegmentTree(lambda x, y: x + y)
+        res = 0
+
+        for val in nums:
+            # 需要查询的下限
+            threshold = val * 2
+            # 注意这里要先查询，再更新，因为自己不能算在里面，我们需要的是 i < j 对应的index
+            res += segment_tree.query_interval(threshold + 1, upper_bound)
+            # 更新的时候注意加入的数字大小，不能超过限制
+            if lower_bound <= val <= upper_bound:
+                # 更新当前数对应的线段数内的index的值
+                segment_tree.update_point(val, 1)
+
+        return res
+
+
+s1 = Solution3()
 print(s1.reversePairs(nums=[1, 3, 2, 3, 1]))
 s2 = Solution2()
 print(s2.reversePairs(nums=[2, 4, 3, 5, 1]))
