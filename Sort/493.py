@@ -115,7 +115,7 @@ class SegTreeNode:
         self.lazy_tag = lazy_tag  # 区间问题的延迟更新标记
 
 
-# 动态开点线段树类，不带延迟更新标记的版本
+# 动态开点线段树类，不带延迟更新标记的版本，因为这里只有单点更新和区间查询，有没有延迟更新标记并不影响
 class SegmentTree:
     # 初始化线段树接口
     def __init__(self, function):
