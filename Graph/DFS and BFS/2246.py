@@ -2,7 +2,7 @@ from collections import defaultdict
 from typing import List
 
 
-class Solution:
+class Solution1:
     def __init__(self):
         self.path = 0
 
@@ -127,7 +127,7 @@ class Solution2:
         """
         Time O(n)
         Space O(n)
-        思路一是从edge的角度进行计算，其实这个题目要的是节点个数，我们完全可能从节点角度计算最长个数，这样只需要在当前节点时候更新最长个数即可
+        思路1是从edge的角度进行计算，其实这个题目要的是节点个数，我们完全可能从节点角度计算最长个数，这样只需要在当前节点时候更新最长个数即可
         不再需要在父节点计算个数。详细见注释。
         """
         graph = self.build_graph(parent)
