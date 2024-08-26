@@ -1,9 +1,9 @@
 class Solution:
-    def numSquares(self, n: int) -> int:
+    def numSquares(self, n: int) -> float:
         """
+        Time O(n * sqrt(n))
+        Space O(n)
         转化成完全背包: 完全平方数就是物品（可以无限件使用），凑个正整数n就是背包，问凑满这个背包最少有多少物品？
-        :param n:
-        :return:
         """
         dp = [float('inf')] * (n + 1)
         dp[0] = 0

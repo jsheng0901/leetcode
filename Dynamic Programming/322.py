@@ -52,6 +52,11 @@ class Solution2:
         return self.memo[amount]
 
     def coinChange(self, coins: List[int], amount: int) -> int:
+        """
+        Time O(n * m)
+        Space O(m)
+        换一种方式写DP，自底向上的写法。
+        """
         self.memo = [-666] * (amount + 1)
         # dp 数组全都初始化为特殊值
         return self.dp(coins, amount)
