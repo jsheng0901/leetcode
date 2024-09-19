@@ -3,7 +3,7 @@ from collections import defaultdict
 from typing import List
 
 
-class Solution:
+class Solution1:
     def __init__(self):
         self.path = set()
 
@@ -128,7 +128,7 @@ class Solution2:
 
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
         """
-        Time O(E + Vlog(V))
+        Time O(E + V * V * log(V))
         Space O(E + V)
         对每个节点能走到其它点的最短距离计算出来，然后计算最短距离是否在给定的范围内，如果是的就计算有多少个邻居，同时更新最少邻居的个数。
         """

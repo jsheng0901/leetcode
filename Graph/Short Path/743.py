@@ -75,7 +75,7 @@ class Solution2:
         """
         Dijkstra 算法模版，输入一个起点 start，计算从 start 到其他节点的最短距离
         """
-        # 定义：distTo[i] 的值就是起点 start 到达节点 i 的最短路径权重
+        # 定义：dist_to[i] 的值就是起点 start 到达节点 i 的最短路径权重
         dist_to = [float('inf')] * len(graph)
         # base case，start 到 start 的最短距离就是 0
         dist_to[start] = 0
@@ -117,7 +117,7 @@ class Solution2:
 
     def networkDelayTime(self, times: [[int]], n: int, k: int) -> int:
         """
-        Time O(Elog(V)) E是边的个数，V是节点个数
+        Time O(n + e * log(n)) e是边的个数，n是节点个数
         Space O(n)
         本质上是 Dijkstra 模板题，而 Dijkstra 本质上贪心原则下带备忘录的BFS算法。
         不需要visited数组记录，因为算法里面每次都是储存最短的路径，两个点之间一定会有最短路径不会一直循环下去。

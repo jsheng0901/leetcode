@@ -3,7 +3,7 @@ from typing import List
 import heapq
 
 
-class Solution:
+class Solution1:
     def dfs(self, graph, node, dst, k, memo):
         # 如果遇到终点直接返回0，不需要价格
         if node == dst:
@@ -123,7 +123,7 @@ class Solution2:
                 # 此处一定要有剪枝操作，不然特殊情况会超时，如果中转次数更多，花费还更大，那必然不会是最短路径
                 if next_cost_from_src > dist_to[next_node_id] and next_node_num_from_src > node_num_to[next_node_id]:
                     continue
-                # 次数是和传统模板不一样的地方，并不是一定只加入最小权重和path的节点，而是都加入。
+                # 此处是和传统模板不一样的地方，并不是一定只加入最小权重和path的节点，而是都加入。
                 # 因为有k值限制，走到终点的路径次数并不一定都是一样的，最理想的情况可能受k限制。详细见测试数据最后一个例子。
                 heapq.heappush(pq, State(next_node_id, next_cost_from_src, next_node_num_from_src))
 
