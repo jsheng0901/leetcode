@@ -1,4 +1,4 @@
-class Solution:
+class Solution1:
     def isValid(self, s: str) -> bool:
         """
         Time O(n)
@@ -21,5 +21,27 @@ class Solution:
         return len(stack) == 0    # 第三种情况，左括号还有没有匹配完的右括号
 
 
-s = Solution()
+class Solution2:
+    def isValid(self, s: str) -> bool:
+        """
+        Time O(n)
+        Space O(n)
+        用栈的逻辑来记录括号pair是否合理，同思路1，换个同一的写法。
+        """
+        mapping = {")": "(", "}": "{", "]": "["}
+        stack = []
+        for i in s:
+            if i not in mapping:
+                stack.append(i)
+            else:
+                if len(stack) == 0:
+                    return False
+                else:
+                    top = stack.pop()
+                    if top != mapping[i]:
+                        return False
+        return len(stack) == 0
+
+
+s = Solution2()
 print(s.isValid('{{{}}}'))
