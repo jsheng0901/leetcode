@@ -115,7 +115,7 @@ class Solution3:
 
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         """
-        Time ( k * log(n))
+        Time (k * log(n))
         Space O(1)
         分治的思路，先两个merge，0-1，2-3，4-5 --> 0-2，4 --> 0-4。
         总共log(k)次merge，每次n个节点。这里我们可以用in-place memory，所以空间降为常数。

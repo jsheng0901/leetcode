@@ -49,15 +49,15 @@ class Solution2:
     def __init__(self):
         self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-    def dp(self, matrix, i, j, visited, memo):
+    def dp(self, matrix, i, j, memo):
         # 遇到计算过的节点结果，直接返回，避免重复计算
         if memo[i][j] != -1:
             return memo[i][j]
 
         m = len(matrix)
         n = len(matrix[0])
-        # 标记访问过此节点
-        visited[i][j] = True
+        # 标记访问过此节点，不需要标记，因为不会走回头路
+        # visited[i][j] = True
         # 记录四个方向邻居节点的返回值
         res = []
         # 遍历四个方向
@@ -67,19 +67,19 @@ class Solution2:
             # 越界，跳过
             if next_i < 0 or next_i >= m or next_j < 0 or next_j >= n:
                 continue
-            # 访问过，跳过
-            if visited[next_i][next_j]:
-                continue
+            # 访问过，跳过，不会回头走，不需要check，邻居节点是不是递增的会保证没有回头路
+            # if visited[next_i][next_j]:
+            #     continue
             # 邻居节点不是递增，跳过
             if matrix[next_i][next_j] <= matrix[i][j]:
                 continue
             # 跳入符合的邻居节点
-            sub_res = self.dp(matrix, next_i, next_j, visited, memo)
+            sub_res = self.dp(matrix, next_i, next_j, memo)
             # 结果加入此层子结果
             res.append(sub_res)
 
-        # 离开当前节点，撤销访问过，这里一定要回溯撤销，因为当前路径走过的点可能别的路径也可以走
-        visited[i][j] = False
+        # 离开当前节点，撤销访问过，这里一定要回溯撤销，因为当前路径走过的点可能别的路径也可以走，不需标记也就不需要回溯
+        # visited[i][j] = False
         # 此处拿到当前节点的所有子节点结果，后续遍历处理逻辑
         # 如果是空的子节点，意味走到path的底，直接返回1，同时记录进备忘录
         if len(res) == 0:
@@ -108,9 +108,10 @@ class Solution2:
         for i in range(m):
             for j in range(n):
                 # 每一次访问前初始化visited数组，因为每一次走过的路径都不一样，当前节点可走路径不受之前走过的影响
-                visited = [[False] * n for _ in range(m)]
+                # 其实我们并不需要visited数组，因为我们需要下一个节点大于当前节点的值，也就是说一定不会走回头路
+                # visited = [[False] * n for _ in range(m)]
                 # 得到当前节点对应的最长path，开始递归
-                res = self.dp(matrix, i, j, visited, memo)
+                res = self.dp(matrix, i, j, memo)
                 # 更新最长path全局结果
                 longest_path = max(longest_path, res)
 
