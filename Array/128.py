@@ -1,6 +1,8 @@
 class Solution:
     def longestConsecutive(self, nums: [int]) -> int:
         """
+        Time O(n)
+        Space O(n)
         数组和hash table的结合应用，典型的空间换时间
         先存储所有数进入set,当找到一个数的前一个不在set里面的时候就从现在这个数开始向前+1进行while loop找下一个数在不在set里面
         如果在就记录当前距离，直到不在set里面就比较当前距离和最长距离，并更新最长距离
@@ -25,4 +27,6 @@ class Solution:
         return long
 
 
-
+s = Solution()
+print(s.longestConsecutive(nums=[100, 4, 200, 1, 3, 2]))
+print(s.longestConsecutive(nums=[0, 3, 7, 2, 5, 8, 4, 6, 0, 1]))

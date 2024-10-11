@@ -3,10 +3,10 @@ import random
 from typing import List
 
 
-class Solution:
+class Solution1:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         """
-        Time O(n log(k))    k is top element size in heapq
+        Time O(n * log(k))    k is top element size in heapq
         Space O(n + k)      map + heap
         first count frequency takes O(n), then build a min heap for each element, each pop and push takes log(n)
         here we use build in heap, then transfer to list.
