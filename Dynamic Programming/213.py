@@ -29,7 +29,7 @@ class Solution:
             return max(nums[0], nums[1])
 
         range1_result = self.rob_range(nums[: -1])
-        range2_result = self.rob_range(nums[1: ])
+        range2_result = self.rob_range(nums[1:])
 
         return max(range2_result, range1_result)
 
